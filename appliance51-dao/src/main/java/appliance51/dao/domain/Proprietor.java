@@ -8,7 +8,7 @@ import javax.persistence.Table;
  * Created by yuana on 2016/9/4.
  */
 @Entity
-@Table(name="u_proprietor")
+@Table(name="uam_proprietor")
 @DiscriminatorValue("proprietor")
 public class Proprietor extends User {
 }

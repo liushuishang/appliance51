@@ -3,10 +3,12 @@ package appliance51.rest.model;
 import com.google.common.base.Strings;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
+
 /**
  * Created by yuananyun on 2016/9/11.
  */
-public class RestResult {
+public class RestResult implements Serializable {
     private int s;
     private String m;
     private Object r;
@@ -27,5 +29,29 @@ public class RestResult {
 
     public static  RestResult getRestResult(String errorMsg, Object data) {
         return Strings.isNullOrEmpty(errorMsg) ? RestResult.success(data) : RestResult.failure(errorMsg);
+    }
+
+    public int getS() {
+        return s;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public String getM() {
+        return m;
+    }
+
+    public void setM(String m) {
+        this.m = m;
+    }
+
+    public Object getR() {
+        return r;
+    }
+
+    public void setR(Object r) {
+        this.r = r;
     }
 }

@@ -14,6 +14,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import static com.google.common.base.Predicates.not;
 import static com.google.common.base.Predicates.or;
 import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.builders.PathSelectors.regex;
@@ -47,11 +48,11 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
                 .groupName("terminal")
                 .genericModelSubstitutes(DeferredResult.class)
                 .useDefaultResponseMessages(false)
-                .forCodeGeneration(true)
                 .pathMapping("/")// base，最终调用接口后会和paths拼接在一起
                 .select()
-//                .paths(or(regex("/api/.*")))//过滤的接口
-                .paths(or(regex("/.*")))//过滤的接口
+//                .paths(or(regex("/.*")))//过滤的接口
+                .paths(not(regex("/error")))//过滤的接口
+//                .paths(or(regex("/proprietor/.*")))
                 .build()
                 .globalResponseMessage(RequestMethod.GET, newArrayList(message))
                 .forCodeGeneration(true)
@@ -61,7 +62,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     private ApiInfo terminalApiInfo() {
         ApiInfo apiInfo = new ApiInfo("家电无忧API",//大标题
-                "手机端",//小标题
+                "手机端接口",//小标题
                 "0.1",//版本
                 "NO terms of service",
                 "liushuishang",//作者

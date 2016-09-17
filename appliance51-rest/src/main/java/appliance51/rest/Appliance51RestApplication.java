@@ -17,23 +17,10 @@ import org.springframework.http.HttpStatus;
 
 @SpringBootApplication
 @ImportResource(locations = {"classpath*:spring/*.xml"})
-@EntityScan(basePackages = {"appliance51.dao.domain"})
-@EnableJpaRepositories(basePackages = {"appliance51.dao.repositories"})
 public class Appliance51RestApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(Appliance51RestApplication.class, args);
     }
 
-//    @Bean
-//    public EmbeddedServletContainerCustomizer containerCustomizer() {
-//        return new EmbeddedServletContainerCustomizer() {
-//            @Override
-//            public void customize(ConfigurableEmbeddedServletContainer container) {
-//                container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"));
-//                container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500"));
-//                container.addErrorPages(new ErrorPage(java.lang.Throwable.class, "/error/500"));
-//            }
-//        };
-//    }
 }

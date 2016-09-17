@@ -1,17 +1,21 @@
 package appliance51.dao.domain;
 
+
 import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 /**
  * Created by yuana on 2016/9/4.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "uam_user")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "accountType", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("default")
 public class User {
 
@@ -19,11 +23,15 @@ public class User {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
+
     @NotNull
     @Column(name = "name", columnDefinition = "varchar(50) ")
-    private String name;
+    @javax.validation.constraints.NotNull(message = "登录名不能为空")
+    @Pattern(regexp = "[a-zA-Z0-9_]{5,10}", message = "用户名格式不正确")
+    private String loginName;
 
     @Column(columnDefinition = "varchar(20) ")
+//    @Size(min = 5, max = 10, message = "{password.length.illegal}")
     private String password;
 
     @Column(columnDefinition = "varchar(50) ")
@@ -46,7 +54,7 @@ public class User {
     @Column(columnDefinition = "int default 0")
     private Integer loginCount;
 
-    @Column(columnDefinition = "varchar(10) ")
+    @Column(columnDefinition = "varchar(10)" ,insertable = false,updatable = false)
     private String accountType;
 
     public String getId() {
@@ -57,12 +65,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public String getPassword() {

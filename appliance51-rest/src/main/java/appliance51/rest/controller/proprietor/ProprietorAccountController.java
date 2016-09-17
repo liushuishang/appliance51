@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by yuananyun on 2016/9/11.
  */
 @RestController(value = "proprietor")
-public class ProprietorAccountController  {
-
+public class ProprietorAccountController {
 
     /**
      * 验证用户登录
@@ -22,7 +21,7 @@ public class ProprietorAccountController  {
      * @param code
      * @return
      */
-    @RequestMapping(value = "login", method = RequestMethod.PUT)
+    @RequestMapping(value = "/proprietor/login", method = RequestMethod.PUT)
     @ApiOperation(value = "用户登录", notes = "用户登录验证和处理")
     public Object login(
             @ApiParam(name = "accountName", value = "手机号")
