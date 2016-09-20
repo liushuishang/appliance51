@@ -1,6 +1,5 @@
 package appliance51.dao.domain;
 
-import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,8 +16,7 @@ public class CityRegion {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
 
-    @NotNull
-    @Column(name = "name", columnDefinition = "varchar(20) ")
+    @Column(name = "name", columnDefinition = "varchar(20) ",nullable = false)
     private String name;
 
     @Column(name = "code", columnDefinition = "varchar(20) ")

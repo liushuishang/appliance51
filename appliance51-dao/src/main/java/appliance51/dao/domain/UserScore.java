@@ -1,6 +1,5 @@
 package appliance51.dao.domain;
 
-import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,12 +15,11 @@ public class UserScore {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(38) ")
+
+    @Column(columnDefinition = "varchar(38) ",nullable = false)
     private String userId;
 
-    @NotNull
-    @Column(columnDefinition = "long default 0")
+    @Column(columnDefinition = "long default 0",nullable = false)
     private Long value;
 
     public String getId() {

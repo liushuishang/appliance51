@@ -1,7 +1,6 @@
 package appliance51.rest.model;
 
 import com.google.common.base.Strings;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 
@@ -9,14 +8,14 @@ import java.io.Serializable;
  * Created by yuananyun on 2016/9/11.
  */
 public class RestResult implements Serializable {
-    private int s;
-    private String m;
-    private Object r;
+    private int status;
+    private String message;
+    private Object data;
 
-    public RestResult(int s, String m, Object r) {
-        this.s = s;
-        this.m = m;
-        this.r = r;
+    public RestResult(int s, String m, Object data) {
+        this.status = s;
+        this.message = m;
+        this.data=data;
     }
 
     public static RestResult success(Object data) {
@@ -31,27 +30,27 @@ public class RestResult implements Serializable {
         return Strings.isNullOrEmpty(errorMsg) ? RestResult.success(data) : RestResult.failure(errorMsg);
     }
 
-    public int getS() {
-        return s;
+    public int getStatus() {
+        return status;
     }
 
-    public void setS(int s) {
-        this.s = s;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getM() {
-        return m;
+    public String getMessage() {
+        return message;
     }
 
-    public void setM(String m) {
-        this.m = m;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public Object getR() {
-        return r;
+    public Object getData() {
+        return data;
     }
 
-    public void setR(Object r) {
-        this.r = r;
+    public void setData(Object data) {
+        this.data = data;
     }
 }

@@ -27,6 +27,7 @@
         <module>appliance51-admin</module>
         <module>appliance51-rest</module>
         <module>appliance51-common</module>
+        <module>appliance51-security</module>
     </modules>
 
 

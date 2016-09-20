@@ -1,10 +1,8 @@
 package appliance51.dao.domain;
 
-import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Created by  yuananyun on 2016/9/4.
@@ -17,12 +15,10 @@ public class ServiceItem {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(38) ")
+    @Column(columnDefinition = "varchar(38) ",nullable = false)
     private String categoryId;
 
-    @NotNull
-    @Column(name = "name", columnDefinition = "varchar(50) ")
+    @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
     private String name;
 
     @Column(columnDefinition = "varchar(200")

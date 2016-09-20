@@ -1,6 +1,5 @@
 package appliance51.dao.domain;
 
-import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,20 +17,17 @@ public class ServiceOrder {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(38)")
+    @Column(columnDefinition = "varchar(38)",nullable = false)
     private String submitterId;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(38)")
+    @Column(columnDefinition = "varchar(38)",nullable = false)
     private String performerId;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "pageId", insertable = false, updatable = false)
     private Set<ServiceItem> ServiceItems;
 
-    @NotNull
-    @Column(columnDefinition = "float default 0")
+    @Column(columnDefinition = "float default 0",nullable = false)
     private Float amount;
 
     @Column(columnDefinition = "varchar(200)")

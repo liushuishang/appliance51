@@ -1,7 +1,5 @@
 package appliance51.dao.domain;
 
-import com.sun.istack.internal.NotNull;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,8 +15,7 @@ public class Workman extends User {
     /**
      * 帐号的状态，0：未验证；1：已实名验证；2：已禁用
      */
-    @NotNull
-    @Column(name = "status", columnDefinition = "int default 0 ")
+    @Column(name = "status", columnDefinition = "int default 0 ",nullable = false)
     private Integer status;
 
     /**

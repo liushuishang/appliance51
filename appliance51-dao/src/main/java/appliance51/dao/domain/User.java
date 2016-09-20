@@ -1,12 +1,10 @@
 package appliance51.dao.domain;
 
 
-import com.sun.istack.internal.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 
 /**
@@ -24,34 +22,35 @@ public class User {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String id;
 
-    @NotNull
-    @Column(name = "name", columnDefinition = "varchar(50) ")
+    @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
     @javax.validation.constraints.NotNull(message = "登录名不能为空")
     @Pattern(regexp = "[a-zA-Z0-9_]{5,10}", message = "用户名格式不正确")
-    private String loginName;
+    private String userName;
 
     @Column(columnDefinition = "varchar(20) ")
 //    @Size(min = 5, max = 10, message = "{password.length.illegal}")
     private String password;
 
+    @Column(columnDefinition = "varchar(20) ")
+    private String salt;
+
     @Column(columnDefinition = "varchar(50) ")
     private String email;
-    @NotNull
-    @Column(columnDefinition = "varchar(50) ")
+    @Column(columnDefinition = "varchar(50) ",nullable = false)
     private String mobile;
 
     @Column(columnDefinition = "varchar(150) ")
     private String avatar;
-    @NotNull
-    @Column(columnDefinition = "timestamp default now()")
+
+    @Column(columnDefinition = "timestamp default now()",nullable = false)
     private Date createdDate;
 
-    @NotNull
-    @Column(columnDefinition = "tinyint default 0")
+
+    @Column(columnDefinition = "tinyint default 0",nullable = false)
     private Integer isEnable;
 
-    @NotNull
-    @Column(columnDefinition = "int default 0")
+
+    @Column(columnDefinition = "int default 0",nullable = false)
     private Integer loginCount;
 
     @Column(columnDefinition = "varchar(10)" ,insertable = false,updatable = false)
@@ -65,12 +64,12 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginName() {
-        return loginName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -135,5 +134,13 @@ public class User {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
