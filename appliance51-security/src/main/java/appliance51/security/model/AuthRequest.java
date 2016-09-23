@@ -19,8 +19,13 @@ import java.util.List;
 public class AuthRequest {
 
     public static final String MULTIPART = "multipart/";
-//    public static final String FROM_HEADER = "X-Engine-From"; //用于判断内网外网（Nginx配置添加Header）
+    //    public static final String FROM_HEADER = "X-Engine-From"; //用于判断内网外网（Nginx配置添加Header）
 //    public static final String SSL_HEADER = "X-Engine-SSL";
+    public static final String TOKEN_NAME = "X-Client-Token";
+    public static final String CLIENT_TYPE = "X-Client-Type";
+    public static final String CLIENT_PLATFORM = "X-Client-Paltform";
+    public static final String CLIENT_VERSION = "X-Client-Version";
+
 
     private HttpServletRequest request;
     private List<KeyValue<String, String>> cacheCookies;
@@ -30,6 +35,19 @@ public class AuthRequest {
             throw new NullPointerException("request");
         }
         this.request = request;
+    }
+
+    public String getClientType(){
+        return request.getHeader(CLIENT_TYPE);
+    }
+    public String getClientPlatform(){
+        return request.getHeader(CLIENT_PLATFORM);
+    }
+    public String getClientVersion(){
+        return request.getHeader(CLIENT_VERSION);
+    }
+    public String getClientToken(){
+        return request.getHeader(TOKEN_NAME);
     }
 
 

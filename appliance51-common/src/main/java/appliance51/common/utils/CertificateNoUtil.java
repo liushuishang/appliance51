@@ -174,8 +174,8 @@ public class CertificateNoUtil {
      * @param certificateNo
      * @return
      */
-    public static String validate(String certificateNo)  {
+    public static boolean validate(String certificateNo)  {
 
-        return  "身份证验证失败！";
+        return  true;
     }
 }

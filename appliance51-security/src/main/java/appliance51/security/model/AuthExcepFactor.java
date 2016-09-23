@@ -15,6 +15,9 @@ public class AuthExcepFactor extends ExcepFactor {
     public static final AuthExcepFactor E_AUTH_PASSWORD_ERROR = new AuthExcepFactor(
             HttpStatus.UNAUTHORIZED, 2, "username or password error!", "用户名或密码不正确");
 
+    public static final AuthExcepFactor E_AUTH_NO_TOKEN= new AuthExcepFactor(
+            HttpStatus.UNAUTHORIZED, 3, "no token!", "请提供Token");
+
     public static final AuthExcepFactor E_AUTH_TOKEN_EXPIRES = new AuthExcepFactor(
             HttpStatus.UNAUTHORIZED, 4, "token expires!", "Token 已过期");
 
@@ -82,11 +85,10 @@ public class AuthExcepFactor extends ExcepFactor {
      * 用户名密码尝试受限
      */
     public static final AuthExcepFactor E_USER_PWD_TRYLIMIT = new AuthExcepFactor(
-            HttpStatus.FORBIDDEN, 3,
+            HttpStatus.FORBIDDEN, 25,
             "Username and pwd auth out of rate limit!", "用户名密码认证超过请求限制!");
 
-    AuthExcepFactor(HttpStatus httpStatus,
-                    int errorCode, String errorMsg, String errorMsgCn) {
+    AuthExcepFactor(HttpStatus httpStatus, int errorCode, String errorMsg, String errorMsgCn) {
         super(GlobalConstants.SERVICE_ID_AUTH, httpStatus, errorCode, errorMsg, errorMsgCn);
     }
 

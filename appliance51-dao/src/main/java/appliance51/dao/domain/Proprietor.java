@@ -9,6 +9,5 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="uam_proprietor")
-@DiscriminatorValue("proprietor")
 public class Proprietor extends User {
 }

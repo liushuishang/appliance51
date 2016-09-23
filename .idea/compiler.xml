@@ -26,6 +26,7 @@
         <module name="appliance51-common" />
         <module name="appliance51-dao" />
         <module name="appliance51-rest" />
+        <module name="appliance51-security" />
         <module name="appliance51admin" />
         <module name="appliance51rest" />
       </profile>
@@ -36,9 +37,7 @@
       <module name="appliance51-dao" target="1.8" />
       <module name="appliance51-parent" target="1.8" />
       <module name="appliance51-rest" target="1.8" />
-      <module name="appliance51admin" target="1.6" />
-      <module name="appliance51rest" target="1.8" />
-      <module name="demo" target="1.8" />
+      <module name="appliance51-security" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

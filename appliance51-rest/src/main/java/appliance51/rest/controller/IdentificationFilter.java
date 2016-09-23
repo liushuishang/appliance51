@@ -20,7 +20,7 @@
 //
 //public class IdentificationFilter implements Filter
 //{
-//    public static final String TICKET_NAME = "com_jme_security_ticket";
+//    public static final String TOKEN_NAME = "com_jme_security_ticket";
 //    public static final String KEY_NAME = "com_jme_security_key";
 //
 //    private final static Logger logger = LoggerFactory.getLogger(IdentificationFilter.class);
@@ -67,14 +67,14 @@
 //        else
 //        {
 //            //从 header 取得ticket
-//            String ticket = request.getParameter(TICKET_NAME);
+//            String ticket = request.getParameter(TOKEN_NAME);
 //            logger.debug("ticket:{}", new Object[]
 //            { ticket });
 //
 //            //看一下参数里
 //            if (ticket == null)
 //            {
-//            	ticket = request.getHeader(TICKET_NAME);
+//            	ticket = request.getHeader(TOKEN_NAME);
 //            }
 //
 //            //如果没有则试图从cookie里取
@@ -83,7 +83,7 @@
 //                Cookie[] cookies = request.getCookies();
 //                if (cookies != null) {
 //                    for(Cookie cookie : cookies) {
-//                        if (TICKET_NAME.equals(cookie.getName())) {
+//                        if (TOKEN_NAME.equals(cookie.getName())) {
 //                            ticket = cookie.getValue();
 //                        }
 //                    }

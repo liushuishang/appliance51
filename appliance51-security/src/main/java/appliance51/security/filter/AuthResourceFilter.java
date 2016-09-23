@@ -27,7 +27,7 @@ import java.util.Optional;
 /**拦截资源请求授权
  * Created by yuananyun on 2016/9/20.
  */
-@Component
+//@Component
 public class AuthResourceFilter extends RequestMappingHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(AuthResourceFilter.class);
 
@@ -44,11 +44,6 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         if (StringUtils.equals(request.getRequestURI(), ERROR_PATH)) {
             return super.handleInternal(request, response, handlerMethod);
         }
-        RequestContext context = ThreadLocalContext.getRequestContext();
-        context.setOriginRequest(request);
-
-        AuthRequest authRequest = new AuthRequest(request);
-
         Method method = handlerMethod.getMethod();
         AuthInfo authInfo=null;
         if (method.isAnnotationPresent(AuthInfo.class)) {
@@ -57,7 +52,9 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
             //没有表明认证信息则默认不需要认证
             return super.handleInternal(request, response, handlerMethod);
         }
-
+        RequestContext context = ThreadLocalContext.getRequestContext();
+        context.setOriginRequest(request);
+        AuthRequest authRequest = new AuthRequest(request);
         AuthResponse authResponse;
         try {
             authResponse = authService.auth(authRequest, Optional.ofNullable(authInfo));
@@ -68,13 +65,12 @@ public class AuthResourceFilter extends RequestMappingHandlerAdapter {
         }
         counterService.increment(StringUtils.substring(StringUtils.replace(request.getRequestURI(), "/", "."), 1));
         context.setCurrentUid(authResponse.getUid());
-        context.setAppId(authResponse.getAppId());
-        context.setOfficialApp(authResponse.getAppId() == GlobalConstants.DEFAULT_APPID);
-        context.setIp(authResponse.getIp());
-        context.setPlatform(authResponse.getPlatform());
+//        context.setAppId(authResponse.getAppId());
+//        context.setOfficialApp(authResponse.getAppId() == GlobalConstants.DEFAULT_APPID);
+//        context.setIp(authResponse.getIp());
+//        context.setPlatform(authResponse.getPlatform());
 //        context.setAttribute("auth_type", authResponse.getAuthedBy());
 //        context.setClientVersion(authResponse.getClientVersion());
-
 
         return super.handleInternal(request, response, handlerMethod);
     }

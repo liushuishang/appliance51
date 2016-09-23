@@ -1,6 +1,5 @@
 package appliance51.dao.repositories;
 
-import appliance51.dao.domain.User;
 import appliance51.dao.domain.Workman;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

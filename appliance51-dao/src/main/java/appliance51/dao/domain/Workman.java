@@ -8,7 +8,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "uam_workman")
-@DiscriminatorValue("workman")
 public class Workman extends User {
 
 
@@ -24,23 +23,23 @@ public class Workman extends User {
     @Column(name = "certificateNo", length = 20, nullable = false)
     private String CertificateNo;
 
-    /**
-     * 师傅可以服务的区县
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "service_workman_region",//中间表名
-            joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id", unique = false)},
-            inverseJoinColumns = {@JoinColumn(name = "regionId", referencedColumnName = "id", unique = false)})
-    private Set<CityRegion> serviceRegionSet;
-
-    /**
-     * 师傅可以提供的服务项目
-     */
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "service_workman_item",//中间表名
-            joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id", unique = false)},
-            inverseJoinColumns = {@JoinColumn(name = "itemId", referencedColumnName = "id", unique = false)})
-    private Set<ServiceItem> serviceItemSets;
+//    /**
+//     * 师傅可以服务的区县
+//     */
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "service_workman_region",//中间表名
+//            joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id", unique = false)},
+//            inverseJoinColumns = {@JoinColumn(name = "regionId", referencedColumnName = "id", unique = false)})
+//    private Set<CityRegion> serviceRegionSet;
+//
+//    /**
+//     * 师傅可以提供的服务项目
+//     */
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "service_workman_item",//中间表名
+//            joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id", unique = false)},
+//            inverseJoinColumns = {@JoinColumn(name = "itemId", referencedColumnName = "id", unique = false)})
+//    private Set<ServiceItem> serviceItemSets;
 
 
     public Integer getStatus() {
@@ -59,19 +58,4 @@ public class Workman extends User {
         CertificateNo = certificateNo;
     }
 
-    public Set<ServiceItem> getServiceItemSets() {
-        return serviceItemSets;
-    }
-
-    public void setServiceItemSets(Set<ServiceItem> serviceItemSets) {
-        this.serviceItemSets = serviceItemSets;
-    }
-
-    public Set<CityRegion> getServiceRegionSet() {
-        return serviceRegionSet;
-    }
-
-    public void setServiceRegionSet(Set<CityRegion> serviceRegionSet) {
-        this.serviceRegionSet = serviceRegionSet;
-    }
 }

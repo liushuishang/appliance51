@@ -12,10 +12,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/appliance51-dao/pom.xml" />
-        <option value="$PROJECT_DIR$/appliance51-admin/pom.xml" />
-        <option value="$PROJECT_DIR$/appliance51-rest/pom.xml" />
         <option value="$PROJECT_DIR$/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/appliance51-security/pom.xml" />
       </list>
     </option>
   </component>

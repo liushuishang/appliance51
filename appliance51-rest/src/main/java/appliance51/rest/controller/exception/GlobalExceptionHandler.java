@@ -1,55 +1,35 @@
 package appliance51.rest.controller.exception;
 
+import appliance51.common.exception.EngineException;
 import appliance51.rest.model.RestResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 /**
  * Created by ucs_yuananyun on 2016/3/17.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<Object> handleIOException(Exception ex) {
-        return redirectToErrorPage("可能是数据源拒绝了数据请求！",HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(SocketTimeoutException.class)
-    public ResponseEntity<Object> handleSocketTimeoutException(Exception ex) {
-        return redirectToErrorPage("连接超时，请检查您的网络！",HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UnknownHostException.class)
-    public ResponseEntity<Object> handleUnknownHostException(Exception ex) {
-        return redirectToErrorPage("网络不通，请检查您的网络！",HttpStatus.BAD_REQUEST);
-    }
-
-    private ResponseEntity<Object> redirectToErrorPage(String message, HttpStatus status) {
-
-        return new ResponseEntity<>(RestResult.failure(message), status);
-    }
+    private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllException(Exception ex) {
-        String message = ex.getMessage();
-        if (message.contains("SocketTimeoutException"))
-            return handleSocketTimeoutException(ex);
-        if (message.contains("UnknownHostException"))
-            return handleUnknownHostException(ex);
-        if (message.contains("IOException")) {
-            return handleIOException(ex);
+        logger.error(ex.getLocalizedMessage());
+        if (ex instanceof EngineException) {
+            EngineException engineException = (EngineException) ex;
+            String errorMsgCn = engineException.getErrorMsgCn();
+            String errorCode = String.valueOf(engineException.getFactor().getErrorCode());
+            HttpStatus status = engineException.getFactor().getStatus();
+            return new ResponseEntity<>(RestResult.failure(errorMsgCn, errorCode), status);
+        } else {
+            return new ResponseEntity<>(RestResult.failure("操作出现异常", "500"), HttpStatus.SERVICE_UNAVAILABLE);
         }
-        if (ex instanceof IllegalArgumentException) {
-            return redirectToErrorPage(message, HttpStatus.BAD_REQUEST);
-        }
-        return redirectToErrorPage(message, HttpStatus.SERVICE_UNAVAILABLE);
+
     }
 
 

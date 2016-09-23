@@ -9,6 +9,7 @@
     <!--<context:property-placeholder location="classpath*:*.properties" ignore-unresolvable="true"/>-->
 
     <bean class="appliance51.security.filter.AuthResourceFilter">
+        <property name="order" value="0"/>
         <property name="synchronizeOnSession" value="true"/>
         <property name="customArgumentResolvers">
             <list>

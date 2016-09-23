@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/appliance51-dao/appliance51-dao.iml" filepath="$PROJECT_DIR$/appliance51-dao/appliance51-dao.iml" />
       <module fileurl="file://$PROJECT_DIR$/appliance51-parent.iml" filepath="$PROJECT_DIR$/appliance51-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/appliance51-rest/appliance51-rest.iml" filepath="$PROJECT_DIR$/appliance51-rest/appliance51-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appliance51-security/appliance51-security.iml" filepath="$PROJECT_DIR$/appliance51-security/appliance51-security.iml" />
     </modules>
   </component>
 </project>

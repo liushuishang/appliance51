@@ -13,14 +13,13 @@ import java.util.Map;
 /**
  * Created by yuananyun on 2016/9/20.
  */
-@Component
 public class RequestContext implements Serializable, JSONAware {
     private static final long serialVersionUID = -402232948972687045L;
 
     @JSONField(name = "request_id")
     private String requestId;
     @JSONField(name = "current_uid")
-    private long currentUid;
+    private String currentUid;
     private String ip;
     @JSONField(name = "app_id")
     private int appId;
@@ -38,6 +37,14 @@ public class RequestContext implements Serializable, JSONAware {
         attribute = new HashMap<>();
     }
 
+    public String getCurrentUid() {
+        return currentUid;
+    }
+
+    public void setCurrentUid(String currentUid) {
+        this.currentUid = currentUid;
+    }
+
     public String getRequestId() {
         return requestId;
     }
@@ -46,13 +53,6 @@ public class RequestContext implements Serializable, JSONAware {
         this.requestId = requestId;
     }
 
-    public long getCurrentUid() {
-        return currentUid;
-    }
-
-    public void setCurrentUid(long currentUid) {
-        this.currentUid = currentUid;
-    }
 
     public String getIp() {
         return ip;
@@ -109,7 +109,7 @@ public class RequestContext implements Serializable, JSONAware {
         final int prime = 31;
         int result = 1;
         result = prime * result + appId;
-        result = prime * result + (int) (currentUid ^ (currentUid >>> 32));
+//        result = prime * result + (int) (currentUid ^ (currentUid >>> 32));
         result = prime * result + ((ip == null) ? 0 : ip.hashCode());
         result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
         return result;

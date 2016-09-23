@@ -4,18 +4,15 @@ package appliance51.dao.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by yuana on 2016/9/4.
  */
-@Entity
-@Table(name = "uam_user")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "accountType", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("default")
-public class User {
+@MappedSuperclass
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public abstract  class User implements Serializable{
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -23,15 +20,12 @@ public class User {
     private String id;
 
     @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
-    @javax.validation.constraints.NotNull(message = "登录名不能为空")
-    @Pattern(regexp = "[a-zA-Z0-9_]{5,10}", message = "用户名格式不正确")
     private String userName;
 
-    @Column(columnDefinition = "varchar(20) ")
-//    @Size(min = 5, max = 10, message = "{password.length.illegal}")
+    @Column(columnDefinition = "varchar(50) ")
     private String password;
 
-    @Column(columnDefinition = "varchar(20) ")
+    @Column(columnDefinition = "varchar(100) ")
     private String salt;
 
     @Column(columnDefinition = "varchar(50) ")
@@ -42,7 +36,7 @@ public class User {
     @Column(columnDefinition = "varchar(150) ")
     private String avatar;
 
-    @Column(columnDefinition = "timestamp default now()",nullable = false)
+    @Column(columnDefinition = "timestamp default now()")
     private Date createdDate;
 
 
@@ -53,8 +47,13 @@ public class User {
     @Column(columnDefinition = "int default 0",nullable = false)
     private Integer loginCount;
 
-    @Column(columnDefinition = "varchar(10)" ,insertable = false,updatable = false)
-    private String accountType;
+
+
+    public User() {
+        this.isEnable = 1;
+        this.loginCount=0;
+
+    }
 
     public String getId() {
         return id;
@@ -128,13 +127,7 @@ public class User {
         this.loginCount = loginCount;
     }
 
-    public String getAccountType() {
-        return accountType;
-    }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
 
     public String getSalt() {
         return salt;

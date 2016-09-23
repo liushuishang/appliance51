@@ -7,7 +7,7 @@ public enum AuthScope {
     //业主端
     PROPRIETOR("proprietor"),
     //师傅端
-    WORKMAN("workeman"),
+    WORKMAN("workman"),
     //所有端
     ALL("all");
 
@@ -16,4 +16,7 @@ public enum AuthScope {
     }
 
     private String value;
+    public String getValue(){
+        return value;
+    }
 }

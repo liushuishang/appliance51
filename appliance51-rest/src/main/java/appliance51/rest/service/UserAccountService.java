@@ -1,19 +1,21 @@
 package appliance51.rest.service;
 
+import appliance51.common.exception.EngineExceptionHelper;
 import appliance51.common.utils.CertificateNoUtil;
-import appliance51.dao.domain.CityRegion;
-import appliance51.dao.domain.ServiceItem;
+import appliance51.common.utils.ExceptionAssert;
+import appliance51.common.utils.PasswordUtl;
 import appliance51.dao.domain.User;
 import appliance51.dao.domain.Workman;
-import appliance51.dao.repositories.ProprietorRespository;
-import appliance51.dao.repositories.WorkmanRepository;
+import appliance51.rest.dto.UserLoginResult;
+import appliance51.rest.dto.WorkmanRegistration;
+import appliance51.rest.exception.UserExcepFactor;
 import appliance51.rest.model.AccountType;
-import com.google.common.base.Strings;
+import appliance51.security.service.AuthTokenService;
+import appliance51.security.service.MobileCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
-import java.util.Set;
+import java.util.UUID;
 
 /**
  * 用户帐号服务
@@ -23,40 +25,61 @@ import java.util.Set;
 public class UserAccountService {
 
     @Autowired
-    private WorkmanRepository workmanRepository;
+    private ProprietorDBService proprietorDBService;
 
     @Autowired
-    private ProprietorRespository proprietorRespository;
+    private WorkmanDBService workmanDBService;
 
+    @Autowired
+    private AuthTokenService authTokenService;
+
+    @Autowired
+    private MobileCodeService mobileCodeService;
 
     /**
      * 师傅注册
      *
-     * @param workman
+     * @param registration
      * @return
      */
-    public String workmanRegister(Workman workman) {
-        String mobile = workman.getMobile();
-        String certificateNo = workman.getCertificateNo();
-        Assert.notNull(mobile, "手机号码不能为空");
-        Assert.notNull(certificateNo, "身份证号码不能为空");
-        Assert.notNull(workman.getPassword(), "登录密码不能为空");
-        Set<CityRegion> serviceRegions = workman.getServiceRegionSet();
-        Assert.notEmpty(serviceRegions, "请填写上门服务的区域");
-        Set<ServiceItem> serviceItems = workman.getServiceItemSets();
-        Assert.notEmpty(serviceItems, "请填写可以提供的服务类别");
+    public UserLoginResult workmanRegister(WorkmanRegistration registration) {
+        String mobile = registration.getMobile();
+        String certificateNo = registration.getCertificateNo();
+        ExceptionAssert.notBlank(mobile, UserExcepFactor.MOBILE_BLANK);
+        ExceptionAssert.notBlank(certificateNo, UserExcepFactor.CERTIFICATE_NO_BLANK);
+        ExceptionAssert.notBlank(registration.getPassword(), UserExcepFactor.USERPASS_BLANK);
+        ExceptionAssert.notEmpty(registration.getServiceItemIdList(), UserExcepFactor.SERVICE_ITEM_EMPTY);
+        ExceptionAssert.notEmpty(registration.getServiceRegionIdList(), UserExcepFactor.SERVICE_REGION_EMPTY);
 
-        boolean isExists = isAccountExists(workman.getAccountType(), mobile);
+        boolean isExists = isAccountExists(AccountType.Workman, mobile);
         if (isExists)
-            return "手机号已经被注册";
+            throw EngineExceptionHelper.localException(UserExcepFactor.ACCOUNT_EXISTS, "手机号已经被注册");
 
-        String errorMsg = CertificateNoUtil.validate(certificateNo);
-        if (!Strings.isNullOrEmpty(errorMsg)) return errorMsg;
+        if (!CertificateNoUtil.validate(certificateNo))
+            throw EngineExceptionHelper.localException(UserExcepFactor.CERTIFICATE_NO_ERROR);
 
-        if (workmanRepository.save(workman) == null)
-            return "注册信息保存失败！";
-        return null;
+        Workman man = workmanDBService.save(registration);
+        if (man == null)
+            throw EngineExceptionHelper.localException(UserExcepFactor.SAVE_FAILURE);
+
+        String userToken = generateUserToken(man);
+        return new UserLoginResult(man.getId(), man.getUserName(), man.getMobile(), userToken);
     }
+
+    /**
+     * 师傅登录
+     *
+     * @param mobile    登录手机号
+     * @param password  登录密码
+     * @param code      手机动态验证码
+     * @param loginType 登录的方式,0:密码;1:手机验证码
+     * @return token
+     */
+    public UserLoginResult workmanLogin(String mobile, String password, String code, Integer loginType) {
+        Workman workman = workmanDBService.findOneByMobile(mobile);
+        return userLogin(mobile, password, code, loginType, workman);
+    }
+
 
     /**
      * 根据帐号类型和手机号码判断帐号是否存在
@@ -65,34 +88,56 @@ public class UserAccountService {
      * @param mobile      手机号
      * @return
      */
-    public boolean isAccountExists(String accountType, String mobile) {
+    public boolean isAccountExists(AccountType accountType, String mobile) {
         User user = null;
         if (AccountType.Workman.equals(accountType))
-            user = findWorkmanByMobile(mobile);
+            user = proprietorDBService.findOneByMobile(mobile);
         else if (AccountType.Proprietor.equals(accountType))
-            user = findProprietorByMobile(mobile);
-        return user == null;
+            user = workmanDBService.findOneByMobile(mobile);
+        return user != null;
+    }
+
+
+    /**
+     * 用户登录
+     *
+     * @param mobile
+     * @param password
+     * @param code
+     * @param loginType
+     * @param user
+     * @return token
+     */
+    private UserLoginResult userLogin(String mobile, String password, String code, Integer loginType, User user) {
+        ExceptionAssert.notNull(user, UserExcepFactor.ACCOUNT_NOT_EXISTS);
+        if (loginType == 1) {
+            String storedCode = mobileCodeService.get(mobile);
+            ExceptionAssert.notBlank(storedCode, UserExcepFactor.MOBILE_CODE_TIMEOUT);
+            if (!storedCode.equals(code))
+                EngineExceptionHelper.localException(UserExcepFactor.MOBILE_CODE_ERROR);
+        } else {
+            String salt = user.getSalt();
+            if (!user.getPassword().equals(PasswordUtl.encryptPassword(salt, password)))
+                EngineExceptionHelper.localException(UserExcepFactor.USERPASS_ERROR);
+        }
+        String userToken = generateUserToken(user);
+        return new UserLoginResult(user.getId(), user.getUserName(), user.getMobile(), userToken);
     }
 
     /**
-     * 查找业主
+     * 生成用户登录专用的Token
      *
-     * @param mobile
+     * @param user
      * @return
      */
-    public User findProprietorByMobile(String mobile) {
-        return proprietorRespository.findOneByMobile(mobile);
-    }
-
-    /**
-     * 查找工人
-     *
-     * @param mobile
-     * @return
-     */
-    public User findWorkmanByMobile(String mobile) {
-        return workmanRepository.findOneByMobile(mobile);
+    private String generateUserToken(User user) {
+        String token = UUID.randomUUID().toString();
+        authTokenService.put(token, user.getId());
+        return token;
     }
 
 
+    public Workman findWorkman(String id) {
+        return workmanDBService.findOne(id);
+    }
 }

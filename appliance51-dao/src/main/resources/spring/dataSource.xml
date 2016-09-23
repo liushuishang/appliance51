@@ -3,12 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <property name="mergeSql" value="true"/>
-        <!--慢记录-->
-        <property name="slowSqlMillis" value="500"/>
-        <property name="logSlowSql" value="true"/>
-    </bean>
+    <!--<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">-->
+        <!--<property name="mergeSql" value="true"/>-->
+        <!--&lt;!&ndash;慢记录&ndash;&gt;-->
+        <!--<property name="slowSqlMillis" value="500"/>-->
+        <!--<property name="logSlowSql" value="true"/>-->
+    <!--</bean>-->
 
     <!-- 数据源配置, 使用的druid数据库连接池 -->
     <bean id="baseDataSourceConfig" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" abstract="true">
@@ -38,17 +38,17 @@
         <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
 
         <!-- 配置监控统计拦截的filters wall防止sql注入-->
-        <property name="filters" value="stat,log4j"/>
-        <property name="proxyFilters">
-            <list>
-                <ref bean="stat-filter"/>
-            </list>
-        </property>
+        <!--<property name="filters" value="stat,log4j"/>-->
+        <!--<property name="proxyFilters">-->
+            <!--<list>-->
+                <!--<ref bean="stat-filter"/>-->
+            <!--</list>-->
+        <!--</property>-->
     </bean>
     <bean id="dataSource" parent="baseDataSourceConfig">
         <property name="driverClassName" value="${spring.datasource.driverClassName}"/>
-        <property name="url" value="${spring.datasource.url }"/>
-        <property name="username" value="${spring.datasource.username }"/>
+        <property name="url" value="${spring.datasource.url}"/>
+        <property name="username" value="${spring.datasource.username}"/>
         <property name="password" value="${spring.datasource.password}"/>
     </bean>
 

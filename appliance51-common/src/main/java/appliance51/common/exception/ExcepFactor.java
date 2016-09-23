@@ -14,7 +14,7 @@ public class ExcepFactor implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(IPUtils.class);
 
-    private static final long serialVersionUID = 4826765296261100979L;
+    private static final long serialVersionUID = 4826765296261101979L;
     // 系统级异常
     public static final int ERROR_LEVEL_SYSTEM = 1;
     // 服务级异常
@@ -163,7 +163,7 @@ public class ExcepFactor implements Serializable {
             "content contain forbid word", "内容中包含封禁词汇");
     public static final ExcepFactor E_FORBID_OP = new ExcepFactor(
             ERROR_LEVEL_SYSTEM, 0, HttpStatus.FORBIDDEN, 53,
-            "forbid this operation.", "操作被禁止，请联系微米客服");
+            "forbid this operation.", "操作被禁止，请联系客服");
     /**
      * 特殊时期
      */
@@ -172,7 +172,7 @@ public class ExcepFactor implements Serializable {
             "service is maintain", "很抱歉，此功能正在维护中，暂时无法提供");
     public static final ExcepFactor E_FROZEN_USER = new ExcepFactor(
             ERROR_LEVEL_SYSTEM, 0, HttpStatus.FORBIDDEN, 55,
-            "forbid this operation.", "该账号因违规被冻结，如有疑问请联系实惠客服4006611388");
+            "forbid this operation.", "该账号因违规被冻结，如有疑问请联系实惠客服");
     public static final ExcepFactor E_BAN_USER = new ExcepFactor(
             ERROR_LEVEL_SYSTEM, 0, HttpStatus.FORBIDDEN, 56,
             "forbid this operation.", "该账号已封禁");
@@ -215,8 +215,7 @@ public class ExcepFactor implements Serializable {
         excepFactors.add(this);
     }
 
-    protected ExcepFactor(int serviceId, HttpStatus httpStatus,
-                          int errorCode, String errorMsg, String errorMsgCn) {
+    protected ExcepFactor(int serviceId, HttpStatus httpStatus, int errorCode, String errorMsg, String errorMsgCn) {
         this(ERROR_LEVEL_SERVICE, serviceId, httpStatus,
                 errorCode, errorMsg, errorMsgCn);
     }

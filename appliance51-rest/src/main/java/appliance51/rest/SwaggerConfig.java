@@ -39,32 +39,66 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+
     @Bean
-    public Docket terminalApi() {
+    public Docket ProprietorApi() {
         ResponseMessage message = new ResponseMessageBuilder().code(500)
                 .message("服务出错啦").responseModel(new ModelRef("Error")).build();
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("terminal")
+                .groupName("proprietor")
                 .genericModelSubstitutes(DeferredResult.class)
                 .useDefaultResponseMessages(false)
                 .pathMapping("/")// base，最终调用接口后会和paths拼接在一起
                 .select()
 //                .paths(or(regex("/.*")))//过滤的接口
-                .paths(not(regex("/error")))//过滤的接口
-//                .paths(or(regex("/proprietor/.*")))
+//                .paths(not(regex("/error")))//过滤的接口
+                .paths(or(regex("/proprietor/.*")))
                 .build()
                 .globalResponseMessage(RequestMethod.GET, newArrayList(message))
                 .forCodeGeneration(true)
-                .apiInfo(terminalApiInfo());
+                .apiInfo(ProprietorApiInfo());
     }
 
 
-    private ApiInfo terminalApiInfo() {
+    private ApiInfo ProprietorApiInfo() {
         ApiInfo apiInfo = new ApiInfo("家电无忧API",//大标题
-                "手机端接口",//小标题
+                "业主手机端接口",//小标题
                 "0.1",//版本
-                "NO terms of service",
+                "No terms of service",
+                "liushuishang",//作者
+                "",//链接显示文字
+                ""//网站链接
+        );
+        return apiInfo;
+    }
+
+    @Bean
+    public Docket WorkmanApi() {
+        ResponseMessage message = new ResponseMessageBuilder().code(500)
+                .message("服务出错啦").responseModel(new ModelRef("Error")).build();
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("workman")
+                .genericModelSubstitutes(DeferredResult.class)
+                .useDefaultResponseMessages(false)
+                .pathMapping("/")// base，最终调用接口后会和paths拼接在一起
+                .select()
+//                .paths(or(regex("/.*")))//过滤的接口
+//                .paths(not(regex("/error")))//过滤的接口
+                .paths(or(regex("/workman/.*")))
+                .build()
+                .globalResponseMessage(RequestMethod.GET, newArrayList(message))
+                .forCodeGeneration(true)
+                .apiInfo(ProprietorApiInfo());
+    }
+
+
+    private ApiInfo WorkmanApiInfo() {
+        ApiInfo apiInfo = new ApiInfo("家电无忧API",//大标题
+                "师傅手机端接口",//小标题
+                "0.1",//版本
+                "No terms of service",
                 "liushuishang",//作者
                 "",//链接显示文字
                 ""//网站链接

@@ -8,34 +8,45 @@ import java.io.Serializable;
  * Created by yuananyun on 2016/9/11.
  */
 public class RestResult implements Serializable {
-    private int status;
+    private boolean success;
     private String message;
     private Object data;
+    private String errorCode;
 
-    public RestResult(int s, String m, Object data) {
-        this.status = s;
-        this.message = m;
-        this.data=data;
+    public RestResult(boolean success, String message, Object data, String errorCode) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
+        this.errorCode = errorCode;
     }
 
-    public static RestResult success(Object data) {
-        return new RestResult(1, null, data);
+    public static RestResult success(Object data){
+        return new RestResult(true,null,data,null);
     }
 
-    public static RestResult failure(String errorMsg) {
-        return new RestResult(0, errorMsg, null);
+    public static RestResult failure(String errorMsg,String errorCode){
+        return new RestResult(false,errorMsg,null,errorCode);
+
     }
 
     public static  RestResult getRestResult(String errorMsg, Object data) {
-        return Strings.isNullOrEmpty(errorMsg) ? RestResult.success(data) : RestResult.failure(errorMsg);
+        return Strings.isNullOrEmpty(errorMsg) ? RestResult.success(data) : RestResult.failure(errorMsg,null);
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
     public String getMessage() {
