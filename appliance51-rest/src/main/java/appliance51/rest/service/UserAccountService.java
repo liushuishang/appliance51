@@ -4,6 +4,7 @@ import appliance51.common.exception.EngineExceptionHelper;
 import appliance51.common.utils.CertificateNoUtil;
 import appliance51.common.utils.ExceptionAssert;
 import appliance51.common.utils.PasswordUtl;
+import appliance51.dao.domain.Proprietor;
 import appliance51.dao.domain.User;
 import appliance51.dao.domain.Workman;
 import appliance51.rest.dto.UserLoginResult;
@@ -45,9 +46,11 @@ public class UserAccountService {
     public UserLoginResult workmanRegister(WorkmanRegistration registration) {
         String mobile = registration.getMobile();
         String certificateNo = registration.getCertificateNo();
+        String password = registration.getPassword();
+
         ExceptionAssert.notBlank(mobile, UserExcepFactor.MOBILE_BLANK);
         ExceptionAssert.notBlank(certificateNo, UserExcepFactor.CERTIFICATE_NO_BLANK);
-        ExceptionAssert.notBlank(registration.getPassword(), UserExcepFactor.USERPASS_BLANK);
+        ExceptionAssert.notBlank(password, UserExcepFactor.USERPASS_BLANK);
         ExceptionAssert.notEmpty(registration.getServiceItemIdList(), UserExcepFactor.SERVICE_ITEM_EMPTY);
         ExceptionAssert.notEmpty(registration.getServiceRegionIdList(), UserExcepFactor.SERVICE_REGION_EMPTY);
 
@@ -62,8 +65,8 @@ public class UserAccountService {
         if (man == null)
             throw EngineExceptionHelper.localException(UserExcepFactor.SAVE_FAILURE);
 
-        String userToken = generateUserToken(man);
-        return new UserLoginResult(man.getId(), man.getUserName(), man.getMobile(), userToken);
+        return workmanLogin(mobile,password,null,1);
+
     }
 
     /**
@@ -80,6 +83,24 @@ public class UserAccountService {
         return userLogin(mobile, password, code, loginType, workman);
     }
 
+    /**
+     * 业主登录
+     * @param mobile
+     * @param code
+     * @return
+     */
+    public UserLoginResult proprietorLogin(String mobile, String code) {
+        ExceptionAssert.notBlank(mobile,UserExcepFactor.MOBILE_BLANK);
+        Proprietor proprietor=proprietorDBService.findOneByMobile(mobile);
+        if(proprietor==null){
+            //自动注册用户帐号
+            proprietor=new Proprietor();
+            proprietor.setMobile(mobile);
+            proprietor.setUserName(mobile);
+            proprietor = proprietorDBService.save(proprietor);
+        }
+        return userLogin(mobile, null, code, 1, proprietor);
+    }
 
     /**
      * 根据帐号类型和手机号码判断帐号是否存在
@@ -140,4 +161,6 @@ public class UserAccountService {
     public Workman findWorkman(String id) {
         return workmanDBService.findOne(id);
     }
+
+
 }

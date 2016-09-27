@@ -17,4 +17,8 @@ public class ProprietorDBService {
     public Proprietor findOneByMobile(String mobile) {
         return proprietorRespository.findOneByMobile(mobile);
     }
+
+    public Proprietor save(Proprietor proprietor) {
+        return proprietorRespository.save(proprietor);
+    }
 }
