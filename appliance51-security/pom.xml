@@ -29,10 +29,11 @@
             <artifactId>appliance51-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.zhimei</groupId>
             <artifactId>appliance51-dao</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,19 +46,12 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.zhimei</groupId>
-            <artifactId>appliance51-dao</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
-            <groupId>com.taobao</groupId>
-            <artifactId>taobao.api</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}\lib\taobao-sdk-java-auto_1455552377940-20160607.jar</systemPath>
-        </dependency>
+        <groupId>com.taobao</groupId>
+        <artifactId>taobao.api</artifactId>
+        <version>1.0</version>
+    </dependency>
     </dependencies>
 
 
