@@ -77,7 +77,8 @@
         </rollingPolicy>
     </appender>
 
-    <root level="INFO">
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="ERROR-OUT"/>
         <appender-ref ref="INFO-OUT"/>
         <appender-ref ref="DEBUG-OUT"/>

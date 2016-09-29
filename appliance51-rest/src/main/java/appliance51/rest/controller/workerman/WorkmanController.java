@@ -12,7 +12,6 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 
 /**
  * Created by yuananyun on 2016/9/11.

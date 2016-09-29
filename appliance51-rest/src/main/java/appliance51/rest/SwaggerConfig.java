@@ -40,6 +40,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+
     @Bean
     public Docket ProprietorApi() {
         ResponseMessage message = new ResponseMessageBuilder().code(500)
@@ -63,9 +64,14 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     private ApiInfo ProprietorApiInfo() {
         ApiInfo apiInfo = new ApiInfo("家电无忧API",//大标题
-                "业主手机端接口",//小标题
-                "0.1",//版本
-                "No terms of service",
+                "业主手机端接口<br/>" +
+                        "每一次的请求头中请附加如下参数：<br/>" +
+                        "X-Client-Type:客户端的类型，指定为proprietor<br/>" +
+                        "X-Client-Paltform:手机操作系统，android或ios<br/>" +
+                        "X-Client-Version:客户端的版本，如V1.0<br/>" +
+                        "X-Device:设备相关的参数，比如设备id，IEE等",//小标题
+                "1.0",//版本
+                "",
                 "liushuishang",//作者
                 "",//链接显示文字
                 ""//网站链接
@@ -96,8 +102,46 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     private ApiInfo WorkmanApiInfo() {
         ApiInfo apiInfo = new ApiInfo("家电无忧API",//大标题
-                "师傅手机端接口",//小标题
-                "0.1",//版本
+                "师傅手机端接口<br/>" +
+                        "每一次的请求头中请附加如下参数：<br/>" +
+                        "X-Client-Type:客户端的类型，指定为workman<br/>" +
+                        "X-Client-Paltform:手机操作系统，android或ios<br/>" +
+                        "X-Client-Version:客户端的版本，如V1.0<br/>" +
+                        "X-Device:设备相关的参数，比如设备id，IEE等",//小标题
+                "1.0",//版本
+                "No terms of service",
+                "liushuishang",//作者
+                "",//链接显示文字
+                ""//网站链接
+        );
+        return apiInfo;
+    }
+
+    @Bean
+    public Docket CommonApi() {
+        ResponseMessage message = new ResponseMessageBuilder().code(500)
+                .message("服务出错啦").responseModel(new ModelRef("Error")).build();
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("common")
+                .genericModelSubstitutes(DeferredResult.class)
+                .useDefaultResponseMessages(false)
+                .pathMapping("/")// base，最终调用接口后会和paths拼接在一起
+                .select()
+//                .paths(or(regex("/.*")))//过滤的接口
+//                .paths(not(regex("/error")))//过滤的接口
+                .paths(or(regex("/common/.*")))
+                .build()
+                .globalResponseMessage(RequestMethod.GET, newArrayList(message))
+                .forCodeGeneration(true)
+                .apiInfo(CommonApiInfo());
+    }
+
+
+    private ApiInfo CommonApiInfo() {
+        ApiInfo apiInfo = new ApiInfo("家电无忧API",//大标题
+                "通用接口",//小标题
+                "1.0",//版本
                 "No terms of service",
                 "liushuishang",//作者
                 "",//链接显示文字

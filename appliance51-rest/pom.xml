@@ -124,13 +124,6 @@
                 <project.packaging>war</project.packaging>
                 <activatedProperties>dev</activatedProperties>
             </properties>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <project.packaging>war</project.packaging>
-                <activatedProperties>release</activatedProperties>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -150,7 +143,12 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <project.packaging>jar</project.packaging>
+                <activatedProperties>release</activatedProperties>
+            </properties>
+        </profile>
     </profiles>
-
-
 </project>

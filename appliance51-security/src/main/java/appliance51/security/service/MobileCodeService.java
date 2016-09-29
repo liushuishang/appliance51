@@ -1,11 +1,14 @@
 package appliance51.security.service;
 
+import appliance51.common.exception.ExcepFactor;
+import appliance51.common.utils.ExceptionAssert;
 import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +69,8 @@ public class MobileCodeService {
      * @return
      */
     public boolean sendMobileCode(String mobile, String uid) {
+        if(StringUtils.isBlank(mobile)) return false;
+
         TaobaoClient client = new DefaultTaobaoClient(smsUrl, appkey, appSecret);
         AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
         req.setExtend(uid);
