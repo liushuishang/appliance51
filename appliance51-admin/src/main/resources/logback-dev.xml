@@ -81,11 +81,15 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ERROR-OUT"/>
     </logger>
-
-    <root level="DEBUG">
+    <logger name=" org.hibernate.SQL" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="ERROR-OUT"/>
         <appender-ref ref="INFO-OUT"/>
         <appender-ref ref="DEBUG-OUT"/>
+    </logger>
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="ERROR-OUT"/>-->
+        <!--<appender-ref ref="INFO-OUT"/>-->
+        <!--<appender-ref ref="DEBUG-OUT"/>-->
     </root>
 </configuration>

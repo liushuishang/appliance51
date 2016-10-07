@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>维修帮</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link th:href="@{../css/bootstrap.min14ed.css?v=3.3.6}" rel="stylesheet"/>
+    <link th:href="@{../css/font-awesome.min93e3.css?v=4.4.0}" rel="stylesheet"/>
+    <link th:href="@{../css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet"/>
+    <link th:href="@{../css/animate.min.css}" rel="stylesheet"/>
+    <link th:href="@{../css/style.min862f.css?v=4.1.0}" rel="stylesheet"/>
+
+</head>
+
+<body class="gray-bg">
+<div layout:fragment="content"></div>
+<!--模态对话框-->
+<div class="modal inmodal fade" id="modal_new" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <!--<h5 class="modal-title">新建</h5>-->
+                <small class="font-bold">新建</small>
+            </div>
+            <div class="modal-body">
+                <div layout:fragment="form_new"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button class="btn btn-primary submit" type="button">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--脚本引用-->
+<script th:src="@{../js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{../js/bootstrap.min.js?v=3.3.6}"></script>
+<script th:src="@{../js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script th:src="@{../js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script th:src="@{../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script th:src="@{../js/plugins/validate/jquery.validate.min.js}"></script>
+<script th:src="@{../js/plugins/validate/messages_zh.min.js}"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    Date.prototype.format = function (format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S+": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                        ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    };
+
+
+    window.global = {};
+    window.global.contextPath =/*[[${#httpServletRequest.getContextPath()}]]*/;
+    window.global.bootstrapTableOptions = {
+//            url: global.contextPath + '/queryPageSites',         //请求后台的URL（*）
+        method: 'get',                      //请求方式（*）
+        toolbar: '#toolbar',                //工具按钮用哪个容器
+        striped: true,                      //是否显示行间隔色
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sortable: true,                     //是否启用排序
+        sortOrder: "asc",                   //排序方式
+        queryParams: function (params) {
+            return {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                pageSize: params.limit,   //页面大小
+                pageIndex: params.offset / params.limit //页码
+            };
+        },
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                       //初始化加载第一页，默认第一页
+        pageSize: 10,                       //每页的记录行数（*）
+        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+        strictSearch: true,
+        undefinedText: "",
+        escape: true,
+        showColumns: true,                  //是否显示所有的列
+        showExport: true,                     //是否显示导出
+        exportDataType: "basic",              //basic', 'all', 'selected'.
+        showRefresh: true,                  //是否显示刷新按钮
+        minimumCountColumns: 2,             //最少允许的列数
+        clickToSelect: true,                //是否启用点击选中行
+        height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+        uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+        showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+        cardView: false,                    //是否显示详细视图
+        detailView: false          //是否显示父子表
+    };
+    //    设置表单验证
+    $.validator.setDefaults({
+        highlight: function (e) {
+            $(e).closest(".form-group").removeClass("has-success").addClass("has-error")
+        }, success: function (e) {
+            e.closest(".form-group").removeClass("has-error").addClass("has-success")
+        }, errorElement: "span", errorPlacement: function (e, r) {
+            e.appendTo(r.is(":radio") || r.is(":checkbox") ? r.parent().parent().parent() : r.parent())
+        }, errorClass: "help-block m-b-none", validClass: "help-block m-b-none",
+        submitHandler: function(form) { alert("submitted!");form.submit(); }
+    });
+
+    $(function () {
+        //新建时的模态对话框
+        $("#tool_new").click(function () {
+                    $('#modal_new').modal();
+                }
+        );
+        //新建时的模态对话框
+        $("#tool_edit").click(function () {
+                    $('#modal_edit').modal();
+                }
+        );
+        $("#tool_del").click(function () {
+
+                }
+        );
+        $("form").validate();
+        $(".submit").click(function () {
+            debugger
+            var form = $("form", $(this).parent().parent());
+            form.submit();
+//            console.log(form.val("action"));
+//            console.log(form.validate());
+//            var data = {};
+//            form.serializeArray().map(function (x) {
+//                data[x.name] = x.value;
+//            });
+//            $.ajax({
+//                type: "post",
+//                cache: false,
+//                contentType: "application/json",
+//                url: global.contextPath + form.val("action"),
+//                data: JSON.stringify(data),
+//                dataType: 'text',
+//                success: function (result) {     //回调函数，result，返回值
+//                    $(".testResult").val(JSON.stringify(result, null, "\t"));
+//                },
+//                error: function (msg) {
+//                    console.log(msg);
+//                }
+//            });
+        });
+    });
+    /*]]>*/
+</script>
+
+<!--子页面的脚本-->
+<div layout:fragment="script"></div>
+</body>
+
+
+</html>

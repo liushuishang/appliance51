@@ -8,19 +8,20 @@ import javax.persistence.*;
  * Created by yuana on 2016/9/4.
  */
 @Entity
-@Table(name = "u_score")
+@Table(name = "uam_score")
 public class UserScore {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(length = 38,nullable = false)
     private String id;
 
 
     @Column(columnDefinition = "varchar(38) ",nullable = false)
     private String userId;
 
-    @Column(columnDefinition = "long default 0",nullable = false)
-    private Long value;
+    @Column(columnDefinition = "float default 0",nullable = false)
+    private Long amount;
 
     public String getId() {
         return id;
@@ -38,11 +39,11 @@ public class UserScore {
         this.userId = userId;
     }
 
-    public Long getValue() {
-        return value;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setValue(Long value) {
-        this.value = value;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 }

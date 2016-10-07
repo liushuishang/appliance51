@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="table_master">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>服务地域管理</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="col-sm-12">
+        <div class="btn-group hidden-xs" id="toolbar" role="group">
+            <button id="tool_new" type="button" class="btn btn-outline btn-default">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+            </button>
+            <button id="tool_edit" type="button" class="btn btn-outline btn-default">
+                <i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+            </button>
+            <button id="tool_del" type="button" class="btn btn-outline btn-default">
+                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+            </button>
+        </div>
+        <table id="listTable" data-mobile-responsive="true"></table>
+    </div>
+</div>
+
+<div layout:fragment="form_new">
+    这里是表单
+</div>
+
+<script th:inline="javascript" layout:fragment="script">
+    /*<![CDATA[*/
+    $(function () {
+        //1.初始化Table
+        var TableInit = function () {
+            var oTableInit = {};
+            oTableInit.Init = function () {
+                $('#listTable').bootstrapTable($.extend(global.bootstrapTableOptions, {
+                    url: global.contextPath + '/service/regionList',         //请求后台的URL（*）
+                    method: 'get',                      //请求方式（*）
+                    detailView: false,
+                    columns: [{
+                        checkbox: true
+                    }, {
+                        field: 'domain',
+                        title: '所属域名'
+                    }, {
+                        field: 'charset',
+                        title: '编码'
+                    }, {
+                        field: 'loginJudgeExpression',
+                        title: '是否需要登录判断'
+                    }
+                    ]
+                }));
+            };
+            oTableInit.actionFormatter = function (value, row, index) {
+                return [
+                    '<a  href="javascript:void(0)" class="addCookie btn btn-sm green" title="添加cookie">',
+                    '<i class="fa fa-plus">添加cookie</i>',
+                    '</a>'
+                ].join('');
+            };
+            oTableInit.actionEvents = {
+                'click .addCookie': function (e, value, row, index) {
+                    $("#cookieForm #siteId").val(row.id);
+                    $("#cookieForm #domain").val(row.domain);
+                    $('#cookieAddModal').modal({
+                        keyboard: false
+                    });
+                }
+            };
+            return oTableInit;
+        };
+        var oTable = new TableInit();
+        oTable.Init();
+    });
+    /*]]>*/
+</script>
+</body>
+
+</html>

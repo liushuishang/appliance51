@@ -14,6 +14,7 @@ public class WorkmanToServiceItem {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(length = 38,nullable = false)
     private String id;
     @Column(columnDefinition = "varchar(38) ",nullable = false)
     private String workmanId;

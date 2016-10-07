@@ -14,6 +14,7 @@ public class CityRegion {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(length = 38,nullable = false)
     private String id;
 
     @Column(name = "name", columnDefinition = "varchar(20) ",nullable = false)

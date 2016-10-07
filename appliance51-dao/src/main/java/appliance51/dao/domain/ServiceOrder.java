@@ -15,6 +15,7 @@ public class ServiceOrder {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(length = 38,nullable = false)
     private String id;
 
     @Column(columnDefinition = "varchar(38)",nullable = false)
@@ -24,7 +25,7 @@ public class ServiceOrder {
     private String performerId;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pageId", insertable = false, updatable = false)
+    @JoinColumn(name = "categoryId", insertable = false, updatable = false)
     private Set<ServiceItem> ServiceItems;
 
     @Column(columnDefinition = "float default 0",nullable = false)

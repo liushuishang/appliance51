@@ -14,10 +14,11 @@ public class WorkmanToServiceRegion {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(length = 38, nullable = false)
     private String id;
-    @Column(columnDefinition = "varchar(38) ",nullable = false)
+    @Column(columnDefinition = "varchar(38) ", nullable = false)
     private String workmanId;
-    @Column(columnDefinition = "varchar(38) ",nullable = false)
+    @Column(columnDefinition = "varchar(38) ", nullable = false)
     private String serviceRegionId;
     @Column(columnDefinition = "timestamp default now()")
     private java.sql.Date createdDate;

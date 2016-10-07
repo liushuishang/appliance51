@@ -16,18 +16,19 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/dashboard").setViewName("dashboard");
 	}
-//	@Bean
-//	public EmbeddedServletContainerCustomizer containerCustomizer(){
-//		return new EmbeddedServletContainerCustomizer(){
-//			@Override
-//			public void customize(ConfigurableEmbeddedServletContainer container) {
-//				container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"));
-//				container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500"));
-//				container.addErrorPages(new ErrorPage(java.lang.Throwable.class,"/error/500"));
-//			}
-//		};
-//	}
+	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer(){
+		return new EmbeddedServletContainerCustomizer(){
+			@Override
+			public void customize(ConfigurableEmbeddedServletContainer container) {
+				container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"));
+				container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500"));
+				container.addErrorPages(new ErrorPage(java.lang.Throwable.class,"/error/500"));
+			}
+		};
+	}
 
 
 }

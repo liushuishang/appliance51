@@ -13,6 +13,7 @@ public class ServiceItem {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(length = 38,nullable = false)
     private String id;
 
     @Column(columnDefinition = "varchar(38) ",nullable = false)
@@ -21,7 +22,7 @@ public class ServiceItem {
     @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
     private String name;
 
-    @Column(columnDefinition = "varchar(200")
+    @Column(columnDefinition = "varchar(200)")
     private String description;
 
 
