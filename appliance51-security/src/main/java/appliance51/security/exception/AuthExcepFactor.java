@@ -1,4 +1,4 @@
-package appliance51.security.model;
+package appliance51.security.exception;
 
 import appliance51.common.exception.ExcepFactor;
 import appliance51.common.utils.GlobalConstants;
@@ -87,6 +87,13 @@ public class AuthExcepFactor extends ExcepFactor {
     public static final AuthExcepFactor E_USER_PWD_TRYLIMIT = new AuthExcepFactor(
             HttpStatus.FORBIDDEN, 25,
             "Username and pwd auth out of rate limit!", "用户名密码认证超过请求限制!");
+
+    /**
+     * 动态验证码频率过快
+     */
+    public static final AuthExcepFactor E_MOBILE_CODE_TRYLIMIT = new AuthExcepFactor(
+            HttpStatus.FORBIDDEN, 26,
+            "mobile code out of rate limit!", "验证码请求过快,请一分钟后再试");
 
     AuthExcepFactor(HttpStatus httpStatus, int errorCode, String errorMsg, String errorMsgCn) {
         super(GlobalConstants.SERVICE_ID_AUTH, httpStatus, errorCode, errorMsg, errorMsgCn);

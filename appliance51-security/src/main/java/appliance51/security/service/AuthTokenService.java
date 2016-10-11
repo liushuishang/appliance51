@@ -1,6 +1,5 @@
 package appliance51.security.service;
 
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
@@ -23,7 +22,7 @@ public class AuthTokenService {
     /**
      * 超时 2个小时
      */
-    private static int expires = 1000 * 60 * 60 * 2;
+    private static int expires = 60 * 60 * 2;
 
 
     @Resource(name = "restApiRedis")
@@ -35,11 +34,11 @@ public class AuthTokenService {
      * @param token
      * @return token对应的用户的Id
      */
-    public String validate(String accountType,String token) {
+    public String validate(String accountType, String token) {
         return authRedisTemplate.execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
-                String key = getTokenKey(accountType,token);
+                String key = getTokenKey(accountType, token);
                 BoundValueOperations<String, String> valueOperations = authRedisTemplate.boundValueOps(key);
                 String uid = valueOperations.get();
                 if (!StringUtils.isBlank(uid))
@@ -55,18 +54,34 @@ public class AuthTokenService {
      * @param token
      * @param uid
      */
-    public void put(String accountType,String token, String uid) {
-        String key = getTokenKey(accountType,token);
+    public void put(String accountType, String token, String uid) {
+        String key = getTokenKey(accountType, token);
         BoundValueOperations<String, String> valueOperations = authRedisTemplate.boundValueOps(key);
         valueOperations.set(uid, expires, TimeUnit.SECONDS);
     }
 
     /**
      * 获取Token在redis中的key
+     *
      * @param token
      * @return
      */
-    private String getTokenKey(String accountType,String token) {
-        return KEY_PREFIX + DigestUtils.md5Hex(accountType+token);
+    private String getTokenKey(String accountType, String token) {
+        return KEY_PREFIX + DigestUtils.md5Hex(accountType + token);
+    }
+
+    /**
+     * 删除一个Token
+     *
+     * @param accountType
+     * @param token
+     */
+    public void del(String accountType, String token) {
+        String key = getTokenKey(accountType, token);
+        authRedisTemplate.execute(new RedisCallback() {
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.del(key.getBytes());
+            }
+        });
     }
 }

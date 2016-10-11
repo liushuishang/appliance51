@@ -3,7 +3,7 @@ package appliance51.security.service;
 import appliance51.common.exception.EngineExceptionHelper;
 import appliance51.security.annotation.AuthInfo;
 import appliance51.security.annotation.AuthType;
-import appliance51.security.model.AuthExcepFactor;
+import appliance51.security.exception.AuthExcepFactor;
 import appliance51.security.model.AuthRequest;
 import appliance51.security.model.AuthResponse;
 import org.apache.commons.lang3.StringUtils;

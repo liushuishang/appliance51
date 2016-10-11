@@ -1,7 +1,7 @@
 package appliance51.security.service;
 
-import appliance51.common.exception.ExcepFactor;
-import appliance51.common.utils.ExceptionAssert;
+import appliance51.common.exception.EngineExceptionHelper;
+import appliance51.security.exception.AuthExcepFactor;
 import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
@@ -47,7 +47,7 @@ public class MobileCodeService {
     /**
      * 超时,5分钟
      */
-    private static int expires = 1000 * 60 * 5;
+    private static int expires = 60 * 5;
 
     @Resource(name = "restApiRedis")
     private StringRedisTemplate redisTemplate;
@@ -55,18 +55,24 @@ public class MobileCodeService {
     public String getAndRemove(String mobile) {
         String key = getKey(mobile);
         BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(key);
-        String code= operations.get();
-//         redisTemplate.execute(new RedisCallback() {
-//            public Long doInRedis(RedisConnection connection) throws DataAccessException {
-//                    return  connection.del(key.getBytes());
-//                }
-//        });
+        String code = operations.get();
+        redisTemplate.execute(new RedisCallback() {
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.del(key.getBytes());
+            }
+        });
         return code;
     }
 
 
     public void put(String mobile, String code) {
         redisTemplate.boundValueOps(getKey(mobile)).set(code, expires, TimeUnit.SECONDS);
+    }
+
+    public long getCodeExpire(String mobile) {
+        Long restLive = redisTemplate.getExpire(getKey(mobile), TimeUnit.SECONDS);
+        if (restLive == null) return Long.MAX_VALUE;
+        else return restLive;
     }
 
     private String getKey(String mobile) {
@@ -81,7 +87,13 @@ public class MobileCodeService {
      * @return
      */
     public boolean sendMobileCode(String mobile, String uid) {
-        if(StringUtils.isBlank(mobile)) return false;
+        if (StringUtils.isBlank(mobile)) return false;
+
+        //一分钟内不能重复发送验证码
+        long restLive = getCodeExpire(mobile);
+        if (restLive > (expires - 60)) {
+            throw EngineExceptionHelper.localException(AuthExcepFactor.E_MOBILE_CODE_TRYLIMIT);
+        }
 
         TaobaoClient client = new DefaultTaobaoClient(smsUrl, appkey, appSecret);
         AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();

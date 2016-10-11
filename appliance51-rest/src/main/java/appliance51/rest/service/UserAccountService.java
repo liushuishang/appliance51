@@ -172,23 +172,32 @@ public class UserAccountService {
         clientLoginLogRespository.save(loginLog);
 
         //生成登录token
-        String userToken = generateUserToken(user.getAccountType(), user.getId());
+        String userToken = refreshUserToken(user.getAccountType(), user.getId());
         return new UserLoginResult(user.getId(), user.getUserName(), user.getMobile(), userToken);
     }
 
     /**
-     * 生成用户登录专用的Token
+     * 生成或刷新用户登录专用的Token
      *
      * @param accountType
      * @param userId
      * @return
      */
-    private String generateUserToken(String accountType, String userId) {
+    private String refreshUserToken(String accountType, String userId) {
         String token = UUID.randomUUID().toString().replace("-", "");
+        ClientLoginStatus loginStatus = clientLoginLogRespository.findByUserId(userId);
+        if(loginStatus!=null){
+            String oldToken = loginStatus.getToken();
+            if(oldToken!=null) {
+                //删除原来的token
+                authTokenService.del(accountType, oldToken);
+            }
+            loginStatus.setToken(token);
+            clientLoginLogRespository.save(loginStatus);
+        }
         authTokenService.put(accountType, token, userId);
         return token;
     }
-
 
     public Workman findWorkman(String id) {
         return workmanDBService.findOne(id);
@@ -218,7 +227,7 @@ public class UserAccountService {
         if (!accordanceWithLastDevice(mobile, deviceId, accountType))
             throw EngineExceptionHelper.localException(UserExcepFactor.CLIENT_RE_LOGIN);
 
-        return generateUserToken(accountType.getValue(), user.getId());
+        return refreshUserToken(accountType.getValue(), user.getId());
     }
 
     /**

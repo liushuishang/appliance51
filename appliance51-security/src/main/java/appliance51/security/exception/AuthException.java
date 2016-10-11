@@ -6,7 +6,6 @@ package appliance51.security.exception;
 
 import appliance51.common.exception.EngineException;
 import appliance51.common.exception.ExcepFactor;
-import appliance51.security.model.AuthExcepFactor;
 
 public class AuthException extends EngineException {
 

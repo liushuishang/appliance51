@@ -45,13 +45,16 @@ public class ClientLoginStatus {
     @Column(columnDefinition = "varchar(20)", nullable = false)
     private String mobile;
 
+
+    private String token;
+
     @Column(columnDefinition = "tinyint default 1", nullable = false)
     private int status;
 
     @Column(columnDefinition = "timestamp default now()", updatable = true, nullable = false)
     private Date lastLoginTime;
 
-    @Column(columnDefinition = "timestamp default now()", updatable = true, nullable = false)
+    @Column(columnDefinition = "timestamp", updatable = true)
     private Date lastLogoutTime;
 
     public String getId() {
@@ -132,5 +135,13 @@ public class ClientLoginStatus {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
