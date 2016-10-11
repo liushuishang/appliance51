@@ -146,10 +146,12 @@ public class UserAccountService {
     private UserLoginResult userLogin(String mobile, String password, String code, Integer loginType, User user) {
         ExceptionAssert.notNull(user, UserExcepFactor.ACCOUNT_NOT_EXISTS);
         if (loginType == 1) {
-            String storedCode = mobileCodeService.getAndRemove(mobile);
+            String storedCode = mobileCodeService.get(mobile);
             ExceptionAssert.notBlank(storedCode, UserExcepFactor.MOBILE_CODE_TIMEOUT);
             if (!storedCode.equals(code))
                 throw EngineExceptionHelper.localException(UserExcepFactor.MOBILE_CODE_ERROR);
+            else
+                mobileCodeService.del(mobile);            //验证码匹配成功，删除旧的验证码
         } else {
             String salt = user.getSalt();
             if (!user.getPassword().equals(PasswordUtl.encryptPassword(salt, password)))
@@ -186,9 +188,9 @@ public class UserAccountService {
     private String refreshUserToken(String accountType, String userId) {
         String token = UUID.randomUUID().toString().replace("-", "");
         ClientLoginStatus loginStatus = clientLoginLogRespository.findByUserId(userId);
-        if(loginStatus!=null){
+        if (loginStatus != null) {
             String oldToken = loginStatus.getToken();
-            if(oldToken!=null) {
+            if (oldToken != null) {
                 //删除原来的token
                 authTokenService.del(accountType, oldToken);
             }

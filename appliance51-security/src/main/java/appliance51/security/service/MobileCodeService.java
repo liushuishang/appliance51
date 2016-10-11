@@ -52,18 +52,21 @@ public class MobileCodeService {
     @Resource(name = "restApiRedis")
     private StringRedisTemplate redisTemplate;
 
-    public String getAndRemove(String mobile) {
+    public String get(String mobile) {
         String key = getKey(mobile);
         BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(key);
         String code = operations.get();
+        return code;
+    }
+
+    public void del(String mobile){
+        String key = getKey(mobile);
         redisTemplate.execute(new RedisCallback() {
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.del(key.getBytes());
             }
         });
-        return code;
     }
-
 
     public void put(String mobile, String code) {
         redisTemplate.boundValueOps(getKey(mobile)).set(code, expires, TimeUnit.SECONDS);
