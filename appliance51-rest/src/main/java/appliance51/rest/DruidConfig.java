@@ -13,9 +13,9 @@ public class DruidConfig implements ServletContextInitializer {
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		ServletRegistration.Dynamic druidServlet = servletContext.addServlet("druid", new StatViewServlet());
-		druidServlet.addMapping("/druid/*");
-		druidServlet.setLoadOnStartup(1);
+//		ServletRegistration.Dynamic druidServlet = servletContext.addServlet("druid", new StatViewServlet());
+//		druidServlet.addMapping("/druid/*");
+//		druidServlet.setLoadOnStartup(1);
 	}
 
 }

@@ -1,4 +1,4 @@
-package appliance51.rest.model;
+package appliance51.dao.model;
 
 /**
  * Created by yuananyun on 2016/9/11.

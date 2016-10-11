@@ -12,6 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +52,16 @@ public class MobileCodeService {
     @Resource(name = "restApiRedis")
     private StringRedisTemplate redisTemplate;
 
-    public String get(String mobile) {
-        return redisTemplate.boundValueOps(getKey(mobile)).get();
+    public String getAndRemove(String mobile) {
+        String key = getKey(mobile);
+        BoundValueOperations<String, String> operations = redisTemplate.boundValueOps(key);
+        String code= operations.get();
+//         redisTemplate.execute(new RedisCallback() {
+//            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+//                    return  connection.del(key.getBytes());
+//                }
+//        });
+        return code;
     }
 
 

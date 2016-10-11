@@ -31,6 +31,12 @@ public class UserExcepFactor extends ExcepFactor {
             "", "手机验证码已超时");
     public static final ExcepFactor MOBILE_CODE_ERROR = new UserExcepFactor(HttpStatus.BAD_REQUEST, 12,
             "", "手机验证码错误");
+    public static final ExcepFactor  CLIENT_DEVICE_IDENTIFICATION_BLANK= new UserExcepFactor(HttpStatus.BAD_REQUEST, 13,
+            "", "设备标识不能为空");
+    public static final ExcepFactor CLIENT_LOGIN_REGISTER = new UserExcepFactor(HttpStatus.BAD_REQUEST, 14,
+            "", "请登录或注册");
+    public static final ExcepFactor CLIENT_RE_LOGIN= new UserExcepFactor(HttpStatus.BAD_REQUEST, 15,
+            "", "请重新登录");
 
 
     protected UserExcepFactor(HttpStatus httpStatus, int errorCode, String errorMsg, String errorMsgCn) {

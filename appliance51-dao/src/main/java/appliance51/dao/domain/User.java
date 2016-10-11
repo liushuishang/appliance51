@@ -48,6 +48,7 @@ public abstract  class User implements Serializable{
     @Column(columnDefinition = "int default 0",nullable = false)
     private Integer loginCount;
 
+    public abstract String getAccountType();
 
 
     public User() {

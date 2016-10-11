@@ -23,14 +23,16 @@ public class RequestContext implements Serializable, JSONAware {
     private String ip;
     @JSONField(name = "app_id")
     private int appId;
-    @JSONField(name = "is_official_app")
-    private boolean isOfficialApp;
+
     @JSONField(name = "platform")
     private String platform;
 
     private Map<String, Object> attribute;
 
     private transient HttpServletRequest originRequest;
+    private String deviceId;
+    private String appVersion;
+    private String clientType;
 
     public RequestContext(String requestId) {
         this.requestId = requestId;
@@ -70,13 +72,6 @@ public class RequestContext implements Serializable, JSONAware {
         this.appId = appId;
     }
 
-    public boolean isOfficialApp() {
-        return isOfficialApp;
-    }
-
-    public void setOfficialApp(boolean officialApp) {
-        isOfficialApp = officialApp;
-    }
 
     public String getPlatform() {
         return platform;
@@ -145,5 +140,29 @@ public class RequestContext implements Serializable, JSONAware {
     @Override
     public String toJSONString() {
         return JSON.toJSONString(this);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
+    }
+
+    public String getClientType() {
+        return clientType;
     }
 }

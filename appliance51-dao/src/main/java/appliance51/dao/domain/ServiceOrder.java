@@ -24,9 +24,10 @@ public class ServiceOrder {
     @Column(columnDefinition = "varchar(38)",nullable = false)
     private String performerId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId", insertable = false, updatable = false)
-    private Set<ServiceItem> ServiceItems;
+    @OneToMany(fetch =FetchType.EAGER )
+    @JoinTable(name = "service_order_item", joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_item_id"))
+    private Set<ServiceItem> serviceItems;
 
     @Column(columnDefinition = "float default 0",nullable = false)
     private Float amount;
@@ -40,4 +41,68 @@ public class ServiceOrder {
     @Column(columnDefinition = "timestamp")
     private Date completedDate;
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSubmitterId() {
+        return submitterId;
+    }
+
+    public void setSubmitterId(String submitterId) {
+        this.submitterId = submitterId;
+    }
+
+    public String getPerformerId() {
+        return performerId;
+    }
+
+    public void setPerformerId(String performerId) {
+        this.performerId = performerId;
+    }
+
+    public Set<ServiceItem> getServiceItems() {
+        return serviceItems;
+    }
+
+    public void setServiceItems(Set<ServiceItem> serviceItems) {
+        this.serviceItems = serviceItems;
+    }
+
+    public Float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Float amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(Date completedDate) {
+        this.completedDate = completedDate;
+    }
 }

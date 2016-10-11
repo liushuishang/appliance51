@@ -2,17 +2,14 @@ package appliance51.security.service;
 
 import appliance51.common.exception.EngineExceptionHelper;
 import appliance51.security.annotation.AuthInfo;
+import appliance51.security.annotation.AuthType;
 import appliance51.security.model.AuthExcepFactor;
 import appliance51.security.model.AuthRequest;
 import appliance51.security.model.AuthResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,17 +33,18 @@ public class DefaultAuthService implements AuthService {
          */
         String clientType = request.getClientType();
         String authScopeValue = authInfo.get().authScope().getValue();
-        if(!("all".equals(authScopeValue))&&!authScopeValue.equalsIgnoreCase(clientType)){
-            throw  EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_ILLEGAL_REQUEST);
+        if (!("all".equals(authScopeValue)) && !authScopeValue.equals(clientType)) {
+            throw EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_ILLEGAL_REQUEST);
         }
+        if (authInfo.get().needAuth() == AuthType.OPTION) return new AuthResponse("anonymous");
         /**
          *检查用户的票据是否有效
          */
         String token = request.getClientToken();
-        if(StringUtils.isBlank(token)) throw  EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_NO_TOKEN);
-        String uid = tokenService.validate(token);
-        if(StringUtils.isBlank(uid))
-            throw  EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_TOKEN_EXPIRES);
+        if (StringUtils.isBlank(token)) throw EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_NO_TOKEN);
+        String uid = tokenService.validate(clientType, token);
+        if (StringUtils.isBlank(uid))
+            throw EngineExceptionHelper.localException(AuthExcepFactor.E_AUTH_TOKEN_EXPIRES);
         return new AuthResponse(uid);
     }
 }

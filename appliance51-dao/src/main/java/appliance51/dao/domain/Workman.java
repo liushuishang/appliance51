@@ -1,5 +1,7 @@
 package appliance51.dao.domain;
 
+import appliance51.dao.model.AccountType;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -58,4 +60,8 @@ public class Workman extends User {
         CertificateNo = certificateNo;
     }
 
+    @Override
+    public String getAccountType() {
+        return AccountType.Workman.getValue();
+    }
 }

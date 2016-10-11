@@ -17,7 +17,7 @@
 //
 //    @Override
 //    public boolean isValidUser(String uid) {
-//        return userService.get(uid) != null;
+//        return userService.getAndRemove(uid) != null;
 //    }
 //
 //    @Override

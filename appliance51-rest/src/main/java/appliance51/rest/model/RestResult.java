@@ -1,6 +1,8 @@
 package appliance51.rest.model;
 
-import com.google.common.base.Strings;
+
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -30,7 +32,7 @@ public class RestResult implements Serializable {
     }
 
     public static  RestResult getRestResult(String errorMsg, Object data) {
-        return Strings.isNullOrEmpty(errorMsg) ? RestResult.success(data) : RestResult.failure(errorMsg,null);
+        return StringUtils.isBlank(errorMsg) ? RestResult.success(data) : RestResult.failure(errorMsg,null);
     }
 
     public boolean isSuccess() {

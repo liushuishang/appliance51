@@ -3,6 +3,7 @@ package appliance51.dao.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by  yuananyun on 2016/9/4.
@@ -24,7 +25,6 @@ public class ServiceItem {
 
     @Column(columnDefinition = "varchar(200)")
     private String description;
-
 
     public String getId() {
         return id;

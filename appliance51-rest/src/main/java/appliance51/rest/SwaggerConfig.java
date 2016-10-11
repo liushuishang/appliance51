@@ -69,7 +69,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
                         "X-Client-Type:客户端的类型，指定为proprietor<br/>" +
                         "X-Client-Paltform:手机操作系统，android或ios<br/>" +
                         "X-Client-Version:客户端的版本，如V1.0<br/>" +
-                        "X-Device:设备相关的参数，比如设备id，IEE等",//小标题
+                        "X-Device:设备相关的参数，比如设备id，IMEI等",//小标题
                 "1.0",//版本
                 "",
                 "liushuishang",//作者

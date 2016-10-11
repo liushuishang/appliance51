@@ -1,5 +1,7 @@
 package appliance51.dao.domain;
 
+import appliance51.dao.model.AccountType;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,4 +12,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="uam_proprietor")
 public class Proprietor extends User {
+
+    @Override
+    public String getAccountType() {
+        return AccountType.Proprietor.getValue();
+    }
 }

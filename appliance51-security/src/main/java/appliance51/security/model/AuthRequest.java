@@ -1,9 +1,10 @@
 package appliance51.security.model;
 
 import appliance51.common.utils.IPUtils;
+import appliance51.security.constants.RequestHeaderConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.javatuples.KeyValue;
+//import org.javatuples.KeyValue;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,23 +13,11 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Authors: sofn
- * Version: 1.0  Created at 2015-09-17 22:05.
- */
+
 public class AuthRequest {
 
-    public static final String MULTIPART = "multipart/";
-    //    public static final String FROM_HEADER = "X-Engine-From"; //用于判断内网外网（Nginx配置添加Header）
-//    public static final String SSL_HEADER = "X-Engine-SSL";
-    public static final String TOKEN_NAME = "X-Client-Token";
-    public static final String CLIENT_TYPE = "X-Client-Type";
-    public static final String CLIENT_PLATFORM = "X-Client-Paltform";
-    public static final String CLIENT_VERSION = "X-Client-Version";
-
-
     private HttpServletRequest request;
-    private List<KeyValue<String, String>> cacheCookies;
+//    private List<KeyValue<String, String>> cacheCookies;
 
     public AuthRequest(HttpServletRequest request) {
         if (request == null) {
@@ -37,17 +26,20 @@ public class AuthRequest {
         this.request = request;
     }
 
-    public String getClientType(){
-        return request.getHeader(CLIENT_TYPE);
+    public String getClientType() {
+        return request.getHeader(RequestHeaderConstant.CLIENT_TYPE);
     }
-    public String getClientPlatform(){
-        return request.getHeader(CLIENT_PLATFORM);
+
+    public String getClientPlatform() {
+        return request.getHeader(RequestHeaderConstant.CLIENT_PLATFORM);
     }
-    public String getClientVersion(){
-        return request.getHeader(CLIENT_VERSION);
+
+    public String getClientVersion() {
+        return request.getHeader(RequestHeaderConstant.CLIENT_VERSION);
     }
-    public String getClientToken(){
-        return request.getHeader(TOKEN_NAME);
+
+    public String getClientToken() {
+        return request.getHeader(RequestHeaderConstant.CLIENT_TOKEN);
     }
 
 
@@ -86,33 +78,33 @@ public class AuthRequest {
         };
     }
 
-    public List<KeyValue<String, String>> getCookies() {
-        if (cacheCookies != null) {
-            return cacheCookies;
-        }
-        List<KeyValue<String, String>> ret = new ArrayList<>();
-        Cookie[] cookieArr = request.getCookies();
-        if (cookieArr != null) {
-            for (Cookie acookie : cookieArr) {
-                ret.add(new KeyValue<>(acookie.getName(),
-                        acookie.getValue()));
-            }
-        }
-        cacheCookies = ret;
-        return cacheCookies;
-    }
-
-    public String getCookie(String name) {
-        if (name == null) {
-            return null;
-        }
-        List<KeyValue<String, String>> cookies = getCookies();
-        for (KeyValue<String, String> pair : cookies) {
-            if (name.equals(pair.getKey()))
-                return pair.getValue();
-        }
-        return null;
-    }
+//    public List<KeyValue<String, String>> getCookies() {
+//        if (cacheCookies != null) {
+//            return cacheCookies;
+//        }
+//        List<KeyValue<String, String>> ret = new ArrayList<>();
+//        Cookie[] cookieArr = request.getCookies();
+//        if (cookieArr != null) {
+//            for (Cookie acookie : cookieArr) {
+//                ret.add(new KeyValue<>(acookie.getName(),
+//                        acookie.getValue()));
+//            }
+//        }
+//        cacheCookies = ret;
+//        return cacheCookies;
+//    }
+//
+//    public String getCookie(String name) {
+//        if (name == null) {
+//            return null;
+//        }
+//        List<KeyValue<String, String>> cookies = getCookies();
+//        for (KeyValue<String, String> pair : cookies) {
+//            if (name.equals(pair.getKey()))
+//                return pair.getValue();
+//        }
+//        return null;
+//    }
 
     public String getMethod() {
         return request.getMethod();
@@ -125,7 +117,7 @@ public class AuthRequest {
     public boolean isMultiPart() {
         String contentType = request.getContentType();
         return "POST".equals(request.getMethod()) && contentType != null
-                && contentType.toLowerCase().startsWith(MULTIPART);
+                && contentType.toLowerCase().startsWith(RequestHeaderConstant.MULTIPART);
     }
 
 
