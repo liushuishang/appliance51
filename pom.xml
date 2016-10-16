@@ -28,6 +28,8 @@
         <module>appliance51-rest</module>
         <module>appliance51-common</module>
         <module>appliance51-security</module>
+        <module>appliance51-store</module>
+        <module>appliance51-push</module>
     </modules>
 
 

@@ -39,6 +39,9 @@ public class ClientLoginStatus {
     @Column(columnDefinition = "varchar(50)", nullable = true)
     private String deviceIdentification;
 
+    @Column(name="jiguang_registrationId", columnDefinition = "varchar(50)", nullable = true)
+    private String jiGuangRegistrationId;
+
     @Column(columnDefinition = "varchar(20)", nullable = true)
     private String appVersion;
 
@@ -143,5 +146,14 @@ public class ClientLoginStatus {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+
+    public String getJiGuangRegistrationId() {
+        return jiGuangRegistrationId;
+    }
+
+    public void setJiGuangRegistrationId(String jiGuangRegistrationId) {
+        this.jiGuangRegistrationId = jiGuangRegistrationId;
     }
 }

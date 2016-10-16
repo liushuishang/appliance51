@@ -23,7 +23,10 @@ public class ServiceItem {
     @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
     private String name;
 
-    @Column(columnDefinition = "varchar(200)")
+    @Column(name = "icon", columnDefinition = "varchar(250) ")
+    private String icon;
+
+    @Column(columnDefinition = "varchar(500)")
     private String description;
 
     public String getId() {
@@ -59,4 +62,11 @@ public class ServiceItem {
     }
 
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }
