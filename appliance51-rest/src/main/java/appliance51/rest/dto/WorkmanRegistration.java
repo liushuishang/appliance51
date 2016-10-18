@@ -12,20 +12,20 @@ import java.util.List;
 @ApiModel
 public class WorkmanRegistration {
 
-    @ApiModelProperty(name = "用户名", required = true)
+    @ApiModelProperty(value = "用户名",name = "用户名", required = true)
     private String userName;
-    @ApiModelProperty(name = "手机号码", required = true)
+    @ApiModelProperty(value = "手机号码", required = true)
     private String mobile;
-    @ApiModelProperty(name = "登录密码", required = false)
+    @ApiModelProperty(value = "登录密码", required = false)
     private String password;
-    @ApiModelProperty(name = "手机动态验证码", required = false)
+    @ApiModelProperty(value = "手机动态验证码", required = false)
     private String mobileCode;
-    @ApiModelProperty(name = "身份证号码", required = true)
+    @ApiModelProperty(value = "身份证号码", required = true)
     private String CertificateNo;
-    @ApiModelProperty(name = "服务项目ID列表", required = true)
+    @ApiModelProperty(value = "服务项目ID列表", required = true)
     private List<String> serviceItemIdList;
-    @ApiModelProperty(name = "服务地区ID列表", required = true)
-    private List<String> serviceRegionIdList;
+    @ApiModelProperty(value = "服务地区区划代码列表", required = true)
+    private List<String> serviceAdCodeList;
 
 
 
@@ -69,13 +69,7 @@ public class WorkmanRegistration {
         this.serviceItemIdList = serviceItemIdList;
     }
 
-    public List<String> getServiceRegionIdList() {
-        return serviceRegionIdList;
-    }
 
-    public void setServiceRegionIdList(List<String> serviceRegionIdList) {
-        this.serviceRegionIdList = serviceRegionIdList;
-    }
 
 
     public String getMobileCode() {
@@ -84,5 +78,13 @@ public class WorkmanRegistration {
 
     public void setMobileCode(String mobileCode) {
         this.mobileCode = mobileCode;
+    }
+
+    public List<String> getServiceAdCodeList() {
+        return serviceAdCodeList;
+    }
+
+    public void setServiceAdCodeList(List<String> serviceAdCodeList) {
+        this.serviceAdCodeList = serviceAdCodeList;
     }
 }

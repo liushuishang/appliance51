@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllException(Exception ex) {
-        logger.error(ex.getLocalizedMessage());
+        logger.error(ex.getLocalizedMessage(),ex);
         if (ex instanceof EngineException) {
             EngineException engineException = (EngineException) ex;
             String errorMsgCn = engineException.getErrorMsgCn();

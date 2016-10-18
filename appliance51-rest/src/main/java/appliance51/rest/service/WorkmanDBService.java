@@ -41,12 +41,12 @@ public class WorkmanDBService {
         Workman savedEntity = workmanRepository.save(workman);
         String manId = savedEntity.getId();
         List<String> serviceItemIdList = workmanRegistration.getServiceItemIdList();
-        List<String> serviceRegionIdList = workmanRegistration.getServiceRegionIdList();
+        List<String> serviceAdCodeList = workmanRegistration.getServiceAdCodeList();
         for (String serviceItemId : serviceItemIdList) {
             serviceItemRepository.save(new WorkmanToServiceItem(manId, serviceItemId));
         }
-        for (String serviceRegionId : serviceRegionIdList) {
-            serviceRegionRepository.save(new WorkmanToServiceRegion(manId, serviceRegionId));
+        for (String serviceAdCode : serviceAdCodeList) {
+            serviceRegionRepository.save(new WorkmanToServiceRegion(manId, serviceAdCode));
         }
         return savedEntity;
     }

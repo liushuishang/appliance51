@@ -9,7 +9,6 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.FileInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +22,16 @@ public class FileStoreService {
     @Autowired
     private StoreConfig storeConfig;
 
-    public boolean upload(String filePath, String fileName, String bucketName) {
+
+    public String upload(byte[] content, String fileName, String bucketName) {
         //创建上传对象
         UploadManager uploadManager = new UploadManager();
         try {
             //调用put方法上传
-            Response res = uploadManager.put(filePath, fileName, storeConfig.getUploadToken(bucketName, null));
-            //打印返回的信息
-            System.out.println(res.bodyString());
-            return true;
+            Response res = uploadManager.put(content, fileName, storeConfig.getUploadToken(bucketName, null));
+            if(res.statusCode==200)
+            return getDownloadUrl(fileName);
+            else return null;
         } catch (QiniuException e) {
             Response r = e.response;
             // 请求失败时打印的异常的信息
@@ -42,7 +42,27 @@ public class FileStoreService {
             } catch (QiniuException e1) {
                 //ignore
             }
-            return false;
+            return null;
+        }
+    }
+
+    public String upload(String filePath, String fileName, String bucketName) {
+        //创建上传对象
+        UploadManager uploadManager = new UploadManager();
+        try {
+            Response res = uploadManager.put(filePath, fileName, storeConfig.getUploadToken(bucketName, null));
+            if(res.statusCode==200)
+                return getDownloadUrl(fileName);
+            else return null;
+        } catch (QiniuException e) {
+            Response r = e.response;
+            logger.error(r.toString());
+            try {
+                //响应的文本信息
+                logger.error(r.bodyString());
+            } catch (QiniuException e1) {
+            }
+            return null;
         }
     }
 
@@ -79,12 +99,12 @@ public class FileStoreService {
         }
     }
 
-    public boolean deleteFile(String fileKey){
+    public boolean deleteFile(String fileKey) {
         BucketManager bucketManager = new BucketManager(storeConfig.getAuth());
         try {
             //调用delete方法移动文件
             bucketManager.delete(storeConfig.getDefaultBucketName(), fileKey);
-       return true;
+            return true;
         } catch (QiniuException e) {
             //捕获异常信息
             Response r = e.response;
@@ -92,8 +112,6 @@ public class FileStoreService {
             return false;
         }
     }
-
-
 
 
 }

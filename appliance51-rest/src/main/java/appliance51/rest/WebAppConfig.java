@@ -1,11 +1,14 @@
 package appliance51.rest;
 
-import appliance51.security.constants.RequestHeaderConstant;
 import appliance51.security.interceptor.TerminalAccessInterceptor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.servlet.MultipartConfigElement;
 
 /**
  * Created by ucs_yuananyun on 2016/5/19.

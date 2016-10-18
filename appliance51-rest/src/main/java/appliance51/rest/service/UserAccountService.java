@@ -61,7 +61,7 @@ public class UserAccountService {
         ExceptionAssert.notBlank(certificateNo, UserExcepFactor.CERTIFICATE_NO_BLANK);
         ExceptionAssert.notBlank(password, UserExcepFactor.USERPASS_BLANK);
         ExceptionAssert.notEmpty(registration.getServiceItemIdList(), UserExcepFactor.SERVICE_ITEM_EMPTY);
-        ExceptionAssert.notEmpty(registration.getServiceRegionIdList(), UserExcepFactor.SERVICE_REGION_EMPTY);
+        ExceptionAssert.notEmpty(registration.getServiceAdCodeList(), UserExcepFactor.SERVICE_REGION_EMPTY);
 
         boolean isExists = isAccountExists(AccountType.Workman, mobile);
         if (isExists)

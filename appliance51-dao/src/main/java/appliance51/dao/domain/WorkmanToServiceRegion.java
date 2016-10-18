@@ -3,7 +3,6 @@ package appliance51.dao.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * Created by yuananyun on 2016/9/22.
@@ -18,14 +17,14 @@ public class WorkmanToServiceRegion {
     private String id;
     @Column(columnDefinition = "varchar(38) ", nullable = false)
     private String workmanId;
-    @Column(columnDefinition = "varchar(38) ", nullable = false)
-    private String serviceRegionId;
+    @Column(columnDefinition = "varchar(50) ", nullable = false)
+    private String seviceAdCode;
     @Column(columnDefinition = "timestamp default now()")
     private java.sql.Date createdDate;
 
-    public WorkmanToServiceRegion(String workmanId, String serviceRegionId) {
+    public WorkmanToServiceRegion(String workmanId, String serviceAdCode) {
         this.workmanId = workmanId;
-        this.serviceRegionId = serviceRegionId;
+        this.seviceAdCode = seviceAdCode;
     }
 
     public String getId() {
@@ -44,12 +43,12 @@ public class WorkmanToServiceRegion {
         this.workmanId = workmanId;
     }
 
-    public String getServiceRegionId() {
-        return serviceRegionId;
+    public String getSeviceAdCode() {
+        return seviceAdCode;
     }
 
-    public void setServiceRegionId(String serviceRegionId) {
-        this.serviceRegionId = serviceRegionId;
+    public void setSeviceAdCode(String seviceAdCode) {
+        this.seviceAdCode = seviceAdCode;
     }
 
     public void setCreatedDate(java.sql.Date createdDate) {
