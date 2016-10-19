@@ -34,7 +34,6 @@ public class WorkmanDBService {
         BeanUtils.copyProperties(workmanRegistration, workman);
         workman.setStatus(0);
 
-
         Workman savedEntity = workmanRepository.save(workman);
         String manId = savedEntity.getId();
         List<String> serviceItemIdList = workmanRegistration.getServiceItemIdList();

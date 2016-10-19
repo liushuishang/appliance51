@@ -28,7 +28,7 @@ public class Workman extends User {
     /**
      * 身份证号码
      */
-    @Column(name = "certificateNo", length = 20, nullable = false)
+    @Column(name = "certificateNo", length = 20, nullable = true)
     private String CertificateNo;
 
 

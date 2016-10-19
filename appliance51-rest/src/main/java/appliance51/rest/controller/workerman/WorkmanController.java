@@ -122,7 +122,7 @@ public class WorkmanController {
                     name = RequestHeaderConstant.CLIENT_TYPE, value = "客户端标识",
                     required = true, dataType = "String", defaultValue = "workman"),
             @ApiImplicitParam(paramType = "body",
-                    name = "RealAuthInfo", value = "实名认证信息",
+                    name = "realAuthInfo", value = "实名认证信息",
                     required = true, dataType = "RealAuthInfo", defaultValue = "")}
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.WORKMAN)

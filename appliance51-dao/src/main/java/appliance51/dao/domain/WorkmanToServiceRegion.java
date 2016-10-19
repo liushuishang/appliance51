@@ -22,9 +22,9 @@ public class WorkmanToServiceRegion {
     @Column(columnDefinition = "timestamp default now()")
     private java.sql.Date createdDate;
 
-    public WorkmanToServiceRegion(String workmanId, String serviceAdCode) {
+    public WorkmanToServiceRegion(String workmanId, String adCode) {
         this.workmanId = workmanId;
-        this.seviceAdCode = seviceAdCode;
+        this.seviceAdCode = adCode;
     }
 
     public String getId() {

@@ -35,9 +35,10 @@ public class BankcardVerifyUtil {
         Map<String, String> paramMap = new HashMap();
         try {
             logger.info("【verifybankcard4】开始发送验证请求，参数为：" + JSON.toJSONString(paramMap));
-            Map<String, Object> response = client.doPostForMap(API_URL, paramMap, null);
+            Map<String, Object> response = client.doGetForMap(API_URL, paramMap, null);
             logger.info("【verifybankcard4】收到请求相应，结果为：" + JSON.toJSONString(response));
             Map<String, String> result = (Map<String, String>) response.get("result");
+            if(result==null) return false;
             String jobid = result.get("jobid");
             String res = result.get("res");
             if (!"1".equals(res)) {
