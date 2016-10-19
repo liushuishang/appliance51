@@ -1,9 +1,11 @@
 package appliance51.rest.controller.workerman;
 
 import appliance51.dao.domain.Workman;
+import appliance51.rest.dto.RealAuthInfo;
 import appliance51.rest.dto.UserLoginResult;
 import appliance51.rest.dto.WorkmanRegistration;
 import appliance51.rest.model.RestResult;
+import appliance51.rest.service.RealAuthenticationService;
 import appliance51.rest.service.UserAccountService;
 import appliance51.security.annotation.AuthInfo;
 import appliance51.security.annotation.AuthScope;
@@ -27,6 +29,9 @@ public class WorkmanController {
 
     @Autowired
     private UserAccountService accountService;
+
+    @Autowired
+    private RealAuthenticationService authenticationService;
 
     /**
      * 师傅注册
@@ -99,6 +104,30 @@ public class WorkmanController {
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.WORKMAN)
     public RestResult getWorkmanInfo(@PathVariable("id") String id) {
         Workman result = accountService.findWorkman(id);
+        return RestResult.success(result);
+    }
+
+    /**
+     * 师傅端实名认证接口
+     * @param realAuthInfo
+     * @return
+     */
+    @RequestMapping(value = "/realAuthentication", method = RequestMethod.POST)
+    @ApiOperation(value = "师傅端实名认证", notes = "师傅端实名认证接口", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header",
+                    name = RequestHeaderConstant.CLIENT_TOKEN, value = "Token",
+                    required = true, dataType = "String", defaultValue = ""),
+            @ApiImplicitParam(paramType = "header",
+                    name = RequestHeaderConstant.CLIENT_TYPE, value = "客户端标识",
+                    required = true, dataType = "String", defaultValue = "workman"),
+            @ApiImplicitParam(paramType = "body",
+                    name = "RealAuthInfo", value = "实名认证信息",
+                    required = true, dataType = "RealAuthInfo", defaultValue = "")}
+    )
+    @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.WORKMAN)
+    public RestResult realAuthentication(@RequestBody RealAuthInfo realAuthInfo) {
+        boolean result=authenticationService.realAuthentication(realAuthInfo);
         return RestResult.success(result);
     }
 

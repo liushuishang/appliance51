@@ -5,7 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
+
 
 /**
  * Created by yuana on 2016/9/4.
@@ -13,6 +14,8 @@ import java.sql.Date;
 @MappedSuperclass
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract  class User implements Serializable{
+
+
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -37,8 +40,11 @@ public abstract  class User implements Serializable{
     @Column(columnDefinition = "varchar(150) ")
     private String avatar;
 
-    @Column(columnDefinition = "timestamp default now()")
+    @Column(columnDefinition = "timestamp default now()",updatable = false)
     private Date createdDate;
+
+    @Column(columnDefinition = "timestamp")
+    private Date lastUpdatedDate;
 
 
     @Column(columnDefinition = "tinyint default 0",nullable = false)
@@ -137,5 +143,13 @@ public abstract  class User implements Serializable{
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Date getLastUpdatedDate() {
+        return lastUpdatedDate;
+    }
+
+    public void setLastUpdatedDate(Date lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 }

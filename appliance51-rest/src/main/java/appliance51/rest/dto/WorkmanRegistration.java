@@ -16,12 +16,10 @@ public class WorkmanRegistration {
     private String userName;
     @ApiModelProperty(value = "手机号码", required = true)
     private String mobile;
-    @ApiModelProperty(value = "登录密码", required = false)
-    private String password;
+//    @ApiModelProperty(value = "登录密码", required = false)
+//    private String password;
     @ApiModelProperty(value = "手机动态验证码", required = false)
     private String mobileCode;
-    @ApiModelProperty(value = "身份证号码", required = true)
-    private String CertificateNo;
     @ApiModelProperty(value = "服务项目ID列表", required = true)
     private List<String> serviceItemIdList;
     @ApiModelProperty(value = "服务地区区划代码列表", required = true)
@@ -45,21 +43,14 @@ public class WorkmanRegistration {
         this.mobile = mobile;
     }
 
-    public String getPassword() {
-        return password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getCertificateNo() {
-        return CertificateNo;
-    }
-
-    public void setCertificateNo(String certificateNo) {
-        CertificateNo = certificateNo;
-    }
 
     public List<String> getServiceItemIdList() {
         return serviceItemIdList;

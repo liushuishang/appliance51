@@ -4,7 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-/**
+/**用户的积分信息
  * Created by yuana on 2016/9/4.
  */
 @Entity

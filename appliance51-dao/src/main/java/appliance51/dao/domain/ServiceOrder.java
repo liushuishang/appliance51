@@ -41,6 +41,11 @@ public class ServiceOrder {
     @Column(columnDefinition = "timestamp")
     private Date completedDate;
 
+    /**
+     * 订单的状态
+     */
+    @Column(columnDefinition = "tinyint default 0",nullable = false)
+    private int  status;
 
     public String getId() {
         return id;
@@ -104,5 +109,13 @@ public class ServiceOrder {
 
     public void setCompletedDate(Date completedDate) {
         this.completedDate = completedDate;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

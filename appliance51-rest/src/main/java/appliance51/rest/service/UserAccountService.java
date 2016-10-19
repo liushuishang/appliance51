@@ -54,12 +54,12 @@ public class UserAccountService {
      */
     public UserLoginResult workmanRegister(WorkmanRegistration registration) {
         String mobile = registration.getMobile();
-        String certificateNo = registration.getCertificateNo();
-        String password = registration.getPassword();
+//        String certificateNo = registration.getCertificateNo();
+//        String password = registration.getPassword();
 
         ExceptionAssert.notBlank(mobile, UserExcepFactor.MOBILE_BLANK);
-        ExceptionAssert.notBlank(certificateNo, UserExcepFactor.CERTIFICATE_NO_BLANK);
-        ExceptionAssert.notBlank(password, UserExcepFactor.USERPASS_BLANK);
+//        ExceptionAssert.notBlank(certificateNo, UserExcepFactor.CERTIFICATE_NO_BLANK);
+//        ExceptionAssert.notBlank(password, UserExcepFactor.USERPASS_BLANK);
         ExceptionAssert.notEmpty(registration.getServiceItemIdList(), UserExcepFactor.SERVICE_ITEM_EMPTY);
         ExceptionAssert.notEmpty(registration.getServiceAdCodeList(), UserExcepFactor.SERVICE_REGION_EMPTY);
 
@@ -67,14 +67,14 @@ public class UserAccountService {
         if (isExists)
             throw EngineExceptionHelper.localException(UserExcepFactor.ACCOUNT_EXISTS, "手机号已经被注册");
 
-        if (!CertificateNoUtil.validate(certificateNo))
-            throw EngineExceptionHelper.localException(UserExcepFactor.CERTIFICATE_NO_ERROR);
+//        if (!CertificateNoUtil.validate(certificateNo))
+//            throw EngineExceptionHelper.localException(UserExcepFactor.CERTIFICATE_NO_ERROR);
 
         Workman man = workmanDBService.save(registration);
         if (man == null)
             throw EngineExceptionHelper.localException(UserExcepFactor.SAVE_FAILURE);
 
-        return workmanLogin(mobile, password, null, 1);
+        return workmanLogin(mobile, null, null, 1);
 
     }
 

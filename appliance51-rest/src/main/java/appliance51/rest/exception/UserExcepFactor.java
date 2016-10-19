@@ -38,6 +38,9 @@ public class UserExcepFactor extends ExcepFactor {
     public static final ExcepFactor CLIENT_RE_LOGIN= new UserExcepFactor(HttpStatus.BAD_REQUEST, 15,
             "", "请重新登录");
 
+    public static final ExcepFactor ACCOUNT_REAL_AUTHENTICATION_FAILURE= new UserExcepFactor(HttpStatus.BAD_REQUEST, 16,
+            "RealAuthentication failure!", "实名认证失败");
+
 
     protected UserExcepFactor(HttpStatus httpStatus, int errorCode, String errorMsg, String errorMsgCn) {
         super(GlobalConstants.USER_ID_AUTH, httpStatus, errorCode, errorMsg, errorMsgCn);

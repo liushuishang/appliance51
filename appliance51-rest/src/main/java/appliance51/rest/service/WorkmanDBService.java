@@ -33,10 +33,7 @@ public class WorkmanDBService {
         Workman workman = new Workman();
         BeanUtils.copyProperties(workmanRegistration, workman);
         workman.setStatus(0);
-        String salt = PasswordUtl.getSalt();
-        String password = PasswordUtl.encryptPassword(salt, workmanRegistration.getPassword());
-        workman.setSalt(salt);
-        workman.setPassword(password);
+
 
         Workman savedEntity = workmanRepository.save(workman);
         String manId = savedEntity.getId();
@@ -50,6 +47,12 @@ public class WorkmanDBService {
         }
         return savedEntity;
     }
+
+    public boolean save(Workman workman)
+    {
+        return workmanRepository.save(workman)!=null;
+    }
+
 
     public Workman findOneByMobile(String mobile) {
         return workmanRepository.findOneByMobile(mobile);

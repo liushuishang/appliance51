@@ -8,18 +8,16 @@ import io.swagger.annotations.ApiModelProperty;
  * Created by yuananyun on 2016/10/17.
  */
 @ApiModel
-public class RealAuthentication {
+public class RealAuthInfo {
 
+    @ApiModelProperty(value = "真实姓名", required = true)
+    private String realName;
     @ApiModelProperty(value = "手机号码", required = true)
     private String mobile;
     @ApiModelProperty(value = "手机动态验证码", required = true)
     private String mobileCode;
     @ApiModelProperty(name = "身份证号码", required = true)
     private String CertificateNo;
-    @ApiModelProperty(name = "身份证正面图片", required = true)
-    private String CertificatePicture1;
-    @ApiModelProperty(name = "身份证背面图片", required = true)
-    private String CertificatePicute2;
     @ApiModelProperty(name = "银行卡号码", required = true)
     private String bankcardNo;
     @ApiModelProperty(name = "二次验证密码", required = true)
@@ -50,21 +48,7 @@ public class RealAuthentication {
         CertificateNo = certificateNo;
     }
 
-    public String getCertificatePicture1() {
-        return CertificatePicture1;
-    }
 
-    public void setCertificatePicture1(String certificatePicture1) {
-        CertificatePicture1 = certificatePicture1;
-    }
-
-    public String getCertificatePicute2() {
-        return CertificatePicute2;
-    }
-
-    public void setCertificatePicute2(String certificatePicute2) {
-        CertificatePicute2 = certificatePicute2;
-    }
 
     public String getBankcardNo() {
         return bankcardNo;
@@ -80,5 +64,13 @@ public class RealAuthentication {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }
