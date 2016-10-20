@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -19,7 +20,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllException(Exception ex) {
-        logger.error(ex.getLocalizedMessage(),ex);
+        logger.error(ex.getLocalizedMessage());
         if (ex instanceof EngineException) {
             EngineException engineException = (EngineException) ex;
             String errorMsgCn = engineException.getErrorMsgCn();

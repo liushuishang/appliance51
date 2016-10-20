@@ -20,6 +20,7 @@ import appliance51.security.service.MobileCodeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.UUID;
@@ -74,7 +75,7 @@ public class UserAccountService {
         if (man == null)
             throw EngineExceptionHelper.localException(UserExcepFactor.SAVE_FAILURE);
 
-        return workmanLogin(mobile, null, null, 1);
+        return workmanLogin(mobile, null, registration.getMobileCode(), 1);
 
     }
 
@@ -143,6 +144,7 @@ public class UserAccountService {
      * @param user
      * @return token
      */
+    @Transactional
     private UserLoginResult userLogin(String mobile, String password, String code, Integer loginType, User user) {
         ExceptionAssert.notNull(user, UserExcepFactor.ACCOUNT_NOT_EXISTS);
         if (loginType == 1) {

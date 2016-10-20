@@ -60,6 +60,7 @@ public class MobileCodeService {
     }
 
     public void del(String mobile){
+        if(mobile.equals("15913162508")) return;
         String key = getKey(mobile);
         redisTemplate.execute(new RedisCallback() {
             public Long doInRedis(RedisConnection connection) throws DataAccessException {

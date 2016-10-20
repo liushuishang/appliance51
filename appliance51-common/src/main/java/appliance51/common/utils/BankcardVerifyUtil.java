@@ -33,13 +33,18 @@ public class BankcardVerifyUtil {
     public static boolean verifybankcard4(String key, String realName, String idCard, String bankcard, String mobile) {
         HttpUtil client = HttpUtil.getInstance();
         Map<String, String> paramMap = new HashMap();
+        paramMap.put("key",key);
+        paramMap.put("realname",realName);
+        paramMap.put("idcard",idCard);
+        paramMap.put("bankcard",bankcard);
+        paramMap.put("mobile", mobile);
         try {
             logger.info("【verifybankcard4】开始发送验证请求，参数为：" + JSON.toJSONString(paramMap));
             Map<String, Object> response = client.doGetForMap(API_URL, paramMap, null);
             logger.info("【verifybankcard4】收到请求相应，结果为：" + JSON.toJSONString(response));
             Map<String, String> result = (Map<String, String>) response.get("result");
             if(result==null) return false;
-            String jobid = result.get("jobid");
+//            String jobid = result.get("jobid");
             String res = result.get("res");
             if (!"1".equals(res)) {
                 return false;
@@ -51,4 +56,6 @@ public class BankcardVerifyUtil {
         }
         return false;
     }
+
+
 }

@@ -10,8 +10,8 @@ import java.util.Date;
  * Created by yuananyun on 2016/10/18.
  */
 @Entity
-@Table(name = "uam_blank_card")
-public class UserBlankCard {
+@Table(name = "uam_bank_card")
+public class UserBankCard {
     public static int STATUS_DISABLE=0;
     public static int STATUS_ENABLE=1;
 
@@ -49,13 +49,13 @@ public class UserBlankCard {
      * 银行卡号
      */
     @Column(columnDefinition = "varchar(20) ", nullable = false, updatable = false)
-    private String blankcardNo;
+    private String bankcardNo;
 
     /**
      * 所属银行名称
      */
-    @Column(columnDefinition = "varchar(20) ", nullable = false, updatable = false)
-    private String blankName;
+    @Column(columnDefinition = "varchar(20) ", nullable = true, updatable = true)
+    private String bankName;
 
     @Column(columnDefinition = "timestamp default now()", updatable = false)
     private Date BindTime;
@@ -96,20 +96,20 @@ public class UserBlankCard {
         this.mobile = mobile;
     }
 
-    public String getBlankcardNo() {
-        return blankcardNo;
+    public String getBankcardNo() {
+        return bankcardNo;
     }
 
-    public void setBlankcardNo(String blankcardNo) {
-        this.blankcardNo = blankcardNo;
+    public void setBankcardNo(String bankcardNo) {
+        this.bankcardNo = bankcardNo;
     }
 
-    public String getBlankName() {
-        return blankName;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setBlankName(String blankName) {
-        this.blankName = blankName;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public Date getBindTime() {

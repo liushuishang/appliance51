@@ -33,6 +33,7 @@ public class WorkmanDBService {
         Workman workman = new Workman();
         BeanUtils.copyProperties(workmanRegistration, workman);
         workman.setStatus(0);
+        workman.setUserName(workmanRegistration.getMobile());
 
         Workman savedEntity = workmanRepository.save(workman);
         String manId = savedEntity.getId();

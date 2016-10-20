@@ -1,14 +1,15 @@
 package appliance51.rest.service;
 
 import appliance51.common.exception.EngineExceptionHelper;
+import appliance51.common.exception.ExcepFactor;
 import appliance51.common.utils.BankcardVerifyUtil;
 import appliance51.common.utils.ExceptionAssert;
 import appliance51.common.utils.PasswordUtl;
 import appliance51.dao.domain.RealAuthenticatonLog;
-import appliance51.dao.domain.UserBlankCard;
+import appliance51.dao.domain.UserBankCard;
 import appliance51.dao.domain.Workman;
 import appliance51.dao.repositories.RealAuthLogRespository;
-import appliance51.dao.repositories.UserBlankCardRepository;
+import appliance51.dao.repositories.UserBankCardRepository;
 import appliance51.rest.dto.RealAuthInfo;
 import appliance51.rest.exception.UserExcepFactor;
 import appliance51.security.context.RequestContext;
@@ -28,6 +29,7 @@ import java.util.Date;
  * Created by yuananyun on 2016/10/18.
  */
 @Service
+@Transactional(rollbackFor={Exception.class, RuntimeException.class})
 public class RealAuthenticationService {
     private static Logger logger = LoggerFactory.getLogger(RealAuthenticationService.class);
 
@@ -39,7 +41,7 @@ public class RealAuthenticationService {
     private RealAuthLogRespository realAuthLogRespository;
 
     @Autowired
-    private UserBlankCardRepository blankCardRepository;
+    private UserBankCardRepository bankCardRepository;
 
     @Autowired
     private WorkmanDBService workmanDBService;
@@ -51,6 +53,18 @@ public class RealAuthenticationService {
      * @return
      */
     public boolean realAuthentication(RealAuthInfo realAuthInfo) {
+        ExceptionAssert.notBlank(realAuthInfo.getBankcardNo(), ExcepFactor.E_PARAM_ERROR);
+        ExceptionAssert.notBlank(realAuthInfo.getCertificateNo(), ExcepFactor.E_PARAM_ERROR);
+        ExceptionAssert.notBlank(realAuthInfo.getMobile(), ExcepFactor.E_PARAM_ERROR);
+        ExceptionAssert.notBlank(realAuthInfo.getMobileCode(), ExcepFactor.E_PARAM_ERROR);
+        ExceptionAssert.notBlank(realAuthInfo.getPassword(), ExcepFactor.E_PARAM_ERROR);
+        ExceptionAssert.notBlank(realAuthInfo.getRealName(), ExcepFactor.E_PARAM_ERROR);
+
+        String bankNo = realAuthInfo.getBankcardNo();
+        Object o=bankCardRepository.findByBankcardNo(bankNo);
+        if(o!=null)
+            throw EngineExceptionHelper.localException(UserExcepFactor.ACCOUNT_ALREADY_AUTHENTICATION);
+
         boolean result = BankcardVerifyUtil.verifybankcard4(verifybankcard4Key,
                 realAuthInfo.getRealName(), realAuthInfo.getCertificateNo(),
                 realAuthInfo.getBankcardNo(), realAuthInfo.getMobile());
@@ -68,7 +82,7 @@ public class RealAuthenticationService {
      *
      * @param realAuthInfo
      */
-    @Transactional
+
     private void bindToAccount(RealAuthInfo realAuthInfo, boolean result) {
         RequestContext context = ThreadLocalContext.getRequestContext();
         String userId = context.getCurrentUid();
@@ -86,7 +100,7 @@ public class RealAuthenticationService {
              * 把银行卡号和操作密码绑定到用户的帐号
              */
             Workman workman = workmanDBService.findOne(userId);
-            if (!realAuthInfo.getMobile().equals(workman.getMobile()))
+            if (workman==null||!realAuthInfo.getMobile().equals(workman.getMobile()))
                 throw EngineExceptionHelper.localException(UserExcepFactor.E_BAN_USER);
 
             logger.info("【bindToAccount】开始绑定用户%s的银行卡信息", userId);
@@ -100,16 +114,15 @@ public class RealAuthenticationService {
             workman.setLastUpdatedDate(new Date());
             workmanDBService.save(workman);
 
-            UserBlankCard blankCard = new UserBlankCard();
+            UserBankCard blankCard = new UserBankCard();
             blankCard.setUserId(userId);
             blankCard.setRealName(realAuthInfo.getRealName());
             blankCard.setCertificateNo(realAuthInfo.getCertificateNo());
-            blankCard.setBlankcardNo(realAuthInfo.getBankcardNo());
+            blankCard.setBankcardNo(realAuthInfo.getBankcardNo());
             blankCard.setMobile(realAuthInfo.getMobile());
-            blankCard.setStatus(UserBlankCard.STATUS_ENABLE);
+            blankCard.setStatus(UserBankCard.STATUS_ENABLE);
             blankCard.setBindTime(new Date());
-            blankCardRepository.save(blankCard);
-
+            bankCardRepository.save(blankCard);
             logger.info("【bindToAccount】绑定用户%s的银行卡信息成功！", userId);
         }
 

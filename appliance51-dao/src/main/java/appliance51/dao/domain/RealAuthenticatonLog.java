@@ -36,7 +36,7 @@ public class RealAuthenticatonLog {
     /**
      * 创建时间
      */
-    @Column(columnDefinition = "timestamp now()", nullable = false, updatable = false)
+    @Column(columnDefinition = "timestamp default now()", nullable = false, updatable = false)
     private Date createdDate;
 
 

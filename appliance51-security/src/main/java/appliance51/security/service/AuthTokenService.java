@@ -42,7 +42,7 @@ public class AuthTokenService {
                 BoundValueOperations<String, String> valueOperations = authRedisTemplate.boundValueOps(key);
                 String uid = valueOperations.get();
                 if (!StringUtils.isBlank(uid))
-                    valueOperations.set(key, expires, TimeUnit.SECONDS);
+                    valueOperations.set(uid, expires, TimeUnit.SECONDS);
                 return uid;
             }
         });
