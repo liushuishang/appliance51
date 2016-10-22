@@ -20,8 +20,14 @@ public class ServiceCategory {
     @Column(columnDefinition = "varchar(38)",nullable = true)
     private String parentId;
 
-    @Column(name = "name", columnDefinition = "varchar(50)",nullable = false)
+    @Column(name = "parent_name", columnDefinition = "varchar(50)",nullable = false)
+    private String parentName;
+
+    @Column(name = "name", columnDefinition = "varchar(50)",nullable = false,updatable = false)
     private String name;
+
+    @Column(name = "`order`",columnDefinition = "int default 0")
+    private  int order;
 
     @Column(columnDefinition = "varchar(100)")
     private String description;
@@ -68,5 +74,21 @@ public class ServiceCategory {
 
     public void setItems(Set<ServiceItem> items) {
         this.items = items;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

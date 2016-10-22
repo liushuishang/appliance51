@@ -20,7 +20,7 @@ public class ControllerExceptionHandler implements HandlerExceptionResolver {
 
     @Override
     public ModelAndView resolveException(HttpServletRequest req, HttpServletResponse resp, Object handler, Exception ex) {
-        ModelAndView model = new ModelAndView("error/generic_error");
+        ModelAndView model = new ModelAndView("error/500");
         model.addObject("error", ex.getMessage());
         return model;
 

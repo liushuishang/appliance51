@@ -23,6 +23,9 @@ public class ServiceItem {
     @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
     private String name;
 
+    @Column(name = "category_name", columnDefinition = "varchar(50) ",nullable = false)
+    private String categoryName;
+
     @Column(name = "icon", columnDefinition = "varchar(250) ")
     private String icon;
 
@@ -68,5 +71,13 @@ public class ServiceItem {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

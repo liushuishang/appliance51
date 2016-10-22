@@ -16,40 +16,24 @@
     <link th:href="@{../css/animate.min.css}" rel="stylesheet"/>
     <link th:href="@{../css/style.min862f.css?v=4.1.0}" rel="stylesheet"/>
 
+
 </head>
 
-<body class="gray-bg">
+<!--<body class="gray-bg">-->
+<body>
 <div layout:fragment="content"></div>
-<!--模态对话框-->
-<div class="modal inmodal fade" id="modal_new" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <!--<h5 class="modal-title">新建</h5>-->
-                <small class="font-bold">新建</small>
-            </div>
-            <div class="modal-body">
-                <div layout:fragment="form_new"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button class="btn btn-primary submit" type="button">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!--脚本引用-->
 <script th:src="@{../js/jquery.min.js?v=2.1.4}"></script>
 <script th:src="@{../js/bootstrap.min.js?v=3.3.6}"></script>
 <script th:src="@{../js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
-<script th:src="@{../js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<!--<script th:src="@{../js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>-->
 <script th:src="@{../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
-<script th:src="@{../js/plugins/validate/jquery.validate.min.js}"></script>
-<script th:src="@{../js/plugins/validate/messages_zh.min.js}"></script>
+<script th:src="@{../js/plugins/bootstrap-table/extensions/export/bootstrap-table-export.min.js}"></script>
+<!--<script th:src="@{../js/plugins/bootstrap-table/extensions/toolbar/bootstrap-table-toolbar.min.js}"></script>-->
+
+<!--<script th:src="@{../js/plugins/validate/jquery.validate.min.js}"></script>-->
+<!--<script th:src="@{../js/plugins/validate/messages_zh.min.js}"></script>-->
+<script th:src="@{../layui/layui.js}"></script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -74,12 +58,9 @@
         }
         return format;
     };
-
-
     window.global = {};
     window.global.contextPath =/*[[${#httpServletRequest.getContextPath()}]]*/;
     window.global.bootstrapTableOptions = {
-//            url: global.contextPath + '/queryPageSites',         //请求后台的URL（*）
         method: 'get',                      //请求方式（*）
         toolbar: '#toolbar',                //工具按钮用哪个容器
         striped: true,                      //是否显示行间隔色
@@ -99,11 +80,12 @@
         pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
         search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
         strictSearch: true,
+        searchOnEnterKey: true,
         undefinedText: "",
         escape: true,
         showColumns: true,                  //是否显示所有的列
         showExport: true,                     //是否显示导出
-        exportDataType: "basic",              //basic', 'all', 'selected'.
+        exportDataType: "all",              //basic', 'all', 'selected'.
         showRefresh: true,                  //是否显示刷新按钮
         minimumCountColumns: 2,             //最少允许的列数
         clickToSelect: true,                //是否启用点击选中行
@@ -113,59 +95,52 @@
         cardView: false,                    //是否显示详细视图
         detailView: false          //是否显示父子表
     };
-    //    设置表单验证
-    $.validator.setDefaults({
-        highlight: function (e) {
-            $(e).closest(".form-group").removeClass("has-success").addClass("has-error")
-        }, success: function (e) {
-            e.closest(".form-group").removeClass("has-error").addClass("has-success")
-        }, errorElement: "span", errorPlacement: function (e, r) {
-            e.appendTo(r.is(":radio") || r.is(":checkbox") ? r.parent().parent().parent() : r.parent())
-        }, errorClass: "help-block m-b-none", validClass: "help-block m-b-none",
-        submitHandler: function(form) { alert("submitted!");form.submit(); }
-    });
-
+    window.formOption = {};
     $(function () {
+        var layer;
+        layui.use('layer', function () {
+            layer = layui.layer;
+        });
         //新建时的模态对话框
         $("#tool_new").click(function () {
-                    $('#modal_new').modal();
-                }
-        );
-        //新建时的模态对话框
-        $("#tool_edit").click(function () {
-                    $('#modal_edit').modal();
-                }
-        );
-        $("#tool_del").click(function () {
-
-                }
-        );
-        $("form").validate();
-        $(".submit").click(function () {
-            debugger
-            var form = $("form", $(this).parent().parent());
-            form.submit();
-//            console.log(form.val("action"));
-//            console.log(form.validate());
-//            var data = {};
-//            form.serializeArray().map(function (x) {
-//                data[x.name] = x.value;
-//            });
-//            $.ajax({
-//                type: "post",
-//                cache: false,
-//                contentType: "application/json",
-//                url: global.contextPath + form.val("action"),
-//                data: JSON.stringify(data),
-//                dataType: 'text',
-//                success: function (result) {     //回调函数，result，返回值
-//                    $(".testResult").val(JSON.stringify(result, null, "\t"));
-//                },
-//                error: function (msg) {
-//                    console.log(msg);
-//                }
-//            });
+            if (window.formOption.createPage)
+                var index = layer.open({
+                    title: '新建',
+                    skin: 'layui-layer-molv',//样式类名
+                    type: 2,
+                    area: ['700px', '500px'],
+                    content: global.contextPath + window.formOption.createPage,
+                    cancel:function(){
+                        refresh();
+                    }
+                });
         });
+        //编辑时的模态对话框
+        $("#tool_edit").click(function () {
+            if (window.formOption.editPage)
+                layer.open({
+                    title: '修改',
+                    skin: 'layui-layer-molv',//样式类名
+                    type: 2,
+                    area: ['700px', '500px'],
+                    content: global.contextPath + window.formOption.editPage,
+                    btn: ['保存', '取消']
+                });
+        });
+        $("#tool_del").click(function () {
+            layer.confirm('确定要删除此记录？', {
+                skin: 'layui-layer-molv',//样式类名
+                btn: ['确定', '我再想想'] //按钮
+            }, function () {
+                layer.msg('删除成功！', {icon: 1});
+            }, function () {
+            });
+        });
+
+        //页面的刷新函数
+        function refresh() {
+            $('#listTable').bootstrapTable('refresh', {silent: true});
+        }
     });
     /*]]>*/
 </script>

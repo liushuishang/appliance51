@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .btn-submit {
+            float: right;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content"></div>
+<script th:src="@{../js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{../layui/layui.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var layer, form, laydate;
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        form = layui.form();
+        layer = layui.layer;
+        laydate = layui.laydate;
+
+        // iframe自适应页面大小
+        var parentLayerIndex = parent.layer.getFrameIndex(window.name);
+        parent.layer.iframeAuto(parentLayerIndex);
+
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 2) {
+                    return '标题至少得2个字符啊';
+                }
+            }
+            , pass: [/(.+){6,12}$/, '密码必须6到12位']
+        });
+        //监听提交
+        form.on('submit', function (params) {
+            // 异步提交
+            var data = params.field;
+            $.ajax({
+                type: "post",
+                cache: false,
+                contentType: "application/json",
+                url: $(params.form).attr("action"),
+                data: JSON.stringify(data),
+                dataType: 'text',
+                success: function (result) {     //回调函数，result，返回值
+                    if (result)
+                        layer.msg("提交成功！", {
+                            time: 1000,
+                            end: function () {
+                                parent.$(".layui-layer-close").click();
+                            }
+                        });
+                    else layer.alert("提交失败！");
+                },
+                error: function (msg) {
+                    layer.alert("请求出现异常！");
+                }
+            });
+            return false;
+        });
+    });
+    /*]]>*/
+</script>
+<!--子页面的脚本-->
+<div layout:fragment="script"></div>
+</body>
+</html>
