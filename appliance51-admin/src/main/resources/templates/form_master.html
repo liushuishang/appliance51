@@ -19,13 +19,14 @@
 <div layout:fragment="content"></div>
 <script th:src="@{../js/jquery.min.js?v=2.1.4}"></script>
 <script th:src="@{../layui/layui.js}"></script>
+<script th:src="@{../layui/lay/dest/layui.all.js}"></script>
+
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var layer, form, laydate;
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        form = layui.form();
-        layer = layui.layer;
-        laydate = layui.laydate;
+    $(function () {
+        var form = layui.form(),
+                layer = layui.layer,
+                laydate = layui.laydate;
 
         // iframe自适应页面大小
         var parentLayerIndex = parent.layer.getFrameIndex(window.name);
@@ -67,6 +68,7 @@
             });
             return false;
         });
+
     });
     /*]]>*/
 </script>

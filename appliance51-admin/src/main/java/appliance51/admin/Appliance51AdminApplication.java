@@ -10,7 +10,9 @@ import org.springframework.context.annotation.ImportResource;
 public class Appliance51AdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Appliance51AdminApplication.class, args);
+        SpringApplication springApplication =new SpringApplication(Appliance51AdminApplication.class);
+        springApplication.addListeners(new EventRegisterListener());
+        springApplication.run(args);
     }
 
 }

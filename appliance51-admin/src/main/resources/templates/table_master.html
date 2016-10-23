@@ -60,6 +60,7 @@
     };
     window.global = {};
     window.global.contextPath =/*[[${#httpServletRequest.getContextPath()}]]*/;
+    window.global.bootstrapTableSelecor = "#listTable";
     window.global.bootstrapTableOptions = {
         method: 'get',                      //请求方式（*）
         toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -110,7 +111,7 @@
                     type: 2,
                     area: ['700px', '500px'],
                     content: global.contextPath + window.formOption.createPage,
-                    cancel:function(){
+                    cancel: function () {
                         refresh();
                     }
                 });
@@ -122,24 +123,44 @@
                     title: '修改',
                     skin: 'layui-layer-molv',//样式类名
                     type: 2,
-                    area: ['700px', '500px'],
+                    area: ['700px', '35-l0px'],
                     content: global.contextPath + window.formOption.editPage,
                     btn: ['保存', '取消']
                 });
         });
         $("#tool_del").click(function () {
+            var selectedRows = $(global.bootstrapTableSelecor).bootstrapTable('getSelections');
+            var idArray = [];
+            if (selectedRows) {
+                selectedRows.map(function (row,i) {
+                    idArray.push(row.id);
+                });
+            }
+            if (idArray.length == 0) {
+                layer.alert("请选择要删除的行！");
+                return false;
+            }
             layer.confirm('确定要删除此记录？', {
                 skin: 'layui-layer-molv',//样式类名
                 btn: ['确定', '我再想想'] //按钮
             }, function () {
-                layer.msg('删除成功！', {icon: 1});
+                var ids = idArray.join(",");
+                $.post(global.contextPath + window.formOption.deletePage, {"ids": ids}, function (data) {
+                    debugger;
+                    if (data == true) {
+                        layer.msg('删除成功！', {icon: 1});
+                        refresh();
+                    }
+                    else
+                        layer.msg('删除失败！', {icon: 2});
+                });
             }, function () {
             });
         });
 
         //页面的刷新函数
         function refresh() {
-            $('#listTable').bootstrapTable('refresh', {silent: true});
+            $(global.bootstrapTableSelecor).bootstrapTable('refresh', {silent: true});
         }
     });
     /*]]>*/
