@@ -78,7 +78,7 @@ public class ProprietorController {
                             required = true, dataType = "String", defaultValue = "test"),
                     @ApiImplicitParam(paramType = "body",
                             name = "order", value = "订单详情",
-                            required = true, dataType = "ServiceOrder"),
+                            required = true, dataType = "ProprietorOrder"),
             }
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.PROPRIETOR)

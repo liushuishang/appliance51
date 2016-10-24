@@ -10,6 +10,10 @@ import org.springframework.http.HttpStatus;
 public class RequestExcepFactor extends ExcepFactor {
 
     public static final ExcepFactor REQUEST_FAILURE = new RequestExcepFactor(HttpStatus.BAD_REQUEST, 1, "operate failure!", "操作失败！");
+    /**
+     * 实体保存失败
+     */
+    public static final ExcepFactor REQUEST_ENTITY_SAVED_ERROR = new RequestExcepFactor(HttpStatus.SERVICE_UNAVAILABLE, 2, "save failure！.", "保存失败！");
 
 
     protected RequestExcepFactor(HttpStatus httpStatus, int errorCode, String errorMsg, String errorMsgCn) {

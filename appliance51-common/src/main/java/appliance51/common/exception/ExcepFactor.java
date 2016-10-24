@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
-
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.*;
@@ -185,6 +184,7 @@ public class ExcepFactor implements Serializable {
     public static final ExcepFactor E_EXCLUSIVE_PARAMS_ERROR = new ExcepFactor(
             ERROR_LEVEL_SYSTEM, 0, HttpStatus.FORBIDDEN, 58,
             "exclusive params error.", "专属信息输入错误");
+
 
 
     private final HttpStatus httpStatus;

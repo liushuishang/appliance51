@@ -3,7 +3,7 @@ package appliance51.dao.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -12,40 +12,84 @@ import java.util.Set;
 @Entity
 @Table(name = "service_order")
 public class ServiceOrder {
+    /**
+     * 初始状态
+     */
+    public static int STATUS_INIT = 0;
+
+    /**
+     * 已经缴纳上门服务费
+     */
+    public static int STATUS_SERVICE_FEE_PAYED = 1;
+
+    /**
+     * 已经匹配师傅并确认
+     */
+    public static int STATUS_COMFIRMED = 2;
+
+    /**
+     * 已经完成
+     */
+    public static int STATUS_COMPLETED = 3;
+
+    /**
+     * 已经评价
+     */
+    public static int STATUS_EVALUATED = 4;
+
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(length = 38,nullable = false)
+    @Column(length = 38, nullable = false)
     private String id;
 
-    @Column(columnDefinition = "varchar(38)",nullable = false)
+    @Column(columnDefinition = "varchar(38)", nullable = false)
     private String submitterId;
 
-    @Column(columnDefinition = "varchar(38)",nullable = false)
+    @Column(columnDefinition = "varchar(38)", nullable = false)
     private String performerId;
 
-    @OneToMany(fetch =FetchType.EAGER )
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "service_order_item", joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "service_item_id"))
     private Set<ServiceItem> serviceItems;
 
-    @Column(columnDefinition = "float default 0",nullable = false)
+    @Column(columnDefinition = "float default 0", nullable = false)
     private Float amount;
 
+
+    @Column(name = "adCode", columnDefinition = "varchar(20)")
+    private String adCode;
     @Column(columnDefinition = "varchar(200)")
+    private String address;
+    @Column(columnDefinition = "varchar(20)")
+    private String order_mobile;
+    @Column(columnDefinition = "varchar(200)")
+    private String remark;
+    @Column(columnDefinition = "varchar(500)")
     private String description;
 
-    @Column(columnDefinition = "timestamp default now()",updatable = false,nullable = false)
-    private Date createdDate;
+    /**
+     * 订单的附件
+     */
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "order_id")
+    private Set<ServiceOrderAttachement> attachmentSet;
 
+
+    @Column(columnDefinition = "timestamp default now()", updatable = false, nullable = false)
+    private Date createdDate;
     @Column(columnDefinition = "timestamp")
     private Date completedDate;
+    @Column(columnDefinition = "timestamp")
+    private Date evaluatedDate;
 
     /**
      * 订单的状态
      */
-    @Column(columnDefinition = "tinyint default 0",nullable = false)
-    private int  status;
+    @Column(columnDefinition = "tinyint default 0", nullable = false)
+    private int status;
 
     public String getId() {
         return id;
@@ -117,5 +161,53 @@ public class ServiceOrder {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Set<ServiceOrderAttachement> getAttachmentSet() {
+        return attachmentSet;
+    }
+
+    public void setAttachmentSet(Set<ServiceOrderAttachement> attachmentSet) {
+        this.attachmentSet = attachmentSet;
+    }
+
+    public String getAdCode() {
+        return adCode;
+    }
+
+    public void setAdCode(String adCode) {
+        this.adCode = adCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getOrder_mobile() {
+        return order_mobile;
+    }
+
+    public void setOrder_mobile(String order_mobile) {
+        this.order_mobile = order_mobile;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getEvaluatedDate() {
+        return evaluatedDate;
+    }
+
+    public void setEvaluatedDate(Date evaluatedDate) {
+        this.evaluatedDate = evaluatedDate;
     }
 }

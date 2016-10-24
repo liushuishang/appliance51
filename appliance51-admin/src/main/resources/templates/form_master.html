@@ -21,8 +21,7 @@
 <script th:src="@{../layui/layui.js}"></script>
 <script th:src="@{../layui/lay/dest/layui.all.js}"></script>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
+<script type="text/javascript">
     $(function () {
         var form = layui.form(),
                 layer = layui.layer,
@@ -70,7 +69,6 @@
         });
 
     });
-    /*]]>*/
 </script>
 <!--子页面的脚本-->
 <div layout:fragment="script"></div>

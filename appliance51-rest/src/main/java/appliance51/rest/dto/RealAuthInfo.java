@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 实名认证用的dto
  * Created by yuananyun on 2016/10/17.
  */
-@ApiModel
+@ApiModel(value = "实名认证提交信息")
 public class RealAuthInfo {
 
     @ApiModelProperty(value = "真实姓名", required = true)

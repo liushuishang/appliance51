@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultra2-q.net.nz/web/thymeleaf/layout" layout:decorator="form_master">
+      xmlns:layout="http://www.ultra2-q.net.nz/web/thymeleaf/layout" layout:decorate="~{form_master}">
 <head>
     <title>服务目录表单</title>
 </head>
@@ -39,14 +39,12 @@
         </div>
     </form>
 </div>
-<script th:inline="javascript" layout:fragment="script">
-    /*<![CDATA[*/
+<script layout:fragment="script">
     $(function () {
         layui.form().on('select(parent-select)', function (data) {
             $("#parentName").val($("option:selected", data.elem).text());
         });
     });
-    /*]]>*/
 </script>
 
 </body>
