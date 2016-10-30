@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{table_master}">
+
+
+<head>
+    <meta charset="utf-8"/>
+    <title>师傅管理</title>
+</head>
+
+<body>
+<div layout:fragment="toolbar"></div>
+<script th:inline="javascript" layout:fragment="script">
+    /*<![CDATA[*/
+    formOption.entityName = "workman";
+    $(function () {
+        //1.初始化Table
+        var TableInit = function () {
+            var oTableInit = {};
+            oTableInit.Init = function () {
+                var option = $.extend(global.bootstrapTableOptions, {
+                    url: global.contextPath + '/data/workman/list',         //请求后台的URL（*）
+                    method: 'get',                      //请求方式（*）
+                    detailView: false,
+                    showExport: true,                 //是否显示导出
+                    columns: [{
+                        checkbox: true
+                    }, {
+                        field: 'name',
+                        title: '用户名'
+                    }, {
+                        field: 'parentName',
+                        title: '手机号码'
+                    }, {
+                        field: 'certificateNo',
+                        title: '身份证号码'
+                    },
+                        {
+                            field: 'status',
+                            title: '帐号状态'
+                        },
+                        {
+                            field: 'createdDate',
+                            title: '创建时间'
+                        },
+                        {
+                            field: 'lastUpdatedDate',
+                            title: '最后登录时间'
+                        }
+                    ]
+                });
+                $('#listTable').bootstrapTable(option);
+            };
+            return oTableInit;
+        };
+        var oTable = new TableInit();
+        oTable.Init();
+    });
+    /*]]>*/
+</script>
+</body>
+
+</html>

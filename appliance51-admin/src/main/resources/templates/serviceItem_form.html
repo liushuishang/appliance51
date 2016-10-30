@@ -2,25 +2,23 @@
 <html xmlns:yay="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultra2-q.net.nz/web/thymeleaf/layout" layout:decorate="~{form_master}">
 <head>
-    <title>服务目录表单</title>
+    <title>服务项目表单</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <form yay:form="id" id="newForm">
-        <yay:select id="parentId" data-label="父分类名" lay-verify="required" lay-filter="parent-select"
+    <form yay:form="id">
+        <yay:text id="name" data-label="项目名称" data-verify="title"></yay:text>
+        <yay:select id="categoryId" data-label="所属分类" lay-verify="required" lay-filter="category-select"
                     data-join-entity="serviceCategory" data-field-display="name" data-field-value="id"/>
-        <yay:text id="name" data-label="分类名" data-verify="title"></yay:text>
-        <input type="hidden" id="parentName" name="parentName"/>
         <yay:textarea id="description" data-label="描述" lay-verify="required"></yay:textarea>
         <yay:formbutton></yay:formbutton>
     </form>
 </div>
 <script layout:fragment="script">
     $(function () {
-        layui.form().on('select(parent-select)', function (data) {
-            var selectedOption = $("option:selected", data.elem);
-            if (selectedOption.val())
-                $("#parentName").val(selectedOption.text());
+        layui.form().on('select(category-select)', function (data) {
+//            var selectedOption = $("option:selected", data.elem);
+
         });
     });
 </script>

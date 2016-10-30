@@ -20,10 +20,10 @@ public class ServiceCategory {
     @Column(columnDefinition = "varchar(38)",nullable = true)
     private String parentId;
 
-    @Column(name = "parent_name", columnDefinition = "varchar(50)",nullable = false)
+    @Column(name = "parent_name", columnDefinition = "varchar(50)",nullable = true)
     private String parentName;
 
-    @Column(name = "name", columnDefinition = "varchar(50)",nullable = false,updatable = false)
+    @Column(name = "name", columnDefinition = "varchar(50)",nullable = false,updatable = true)
     private String name;
 
     @Column(name = "`order`",columnDefinition = "int default 0")

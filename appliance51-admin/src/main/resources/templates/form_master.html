@@ -52,7 +52,7 @@
                 data: JSON.stringify(data),
                 dataType: 'text',
                 success: function (result) {     //回调函数，result，返回值
-                    if (result)
+                    if (result!=true)
                         layer.msg("提交成功！", {
                             time: 1000,
                             end: function () {

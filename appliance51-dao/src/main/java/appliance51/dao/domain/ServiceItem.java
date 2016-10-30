@@ -23,7 +23,7 @@ public class ServiceItem {
     @Column(name = "name", columnDefinition = "varchar(50) ",nullable = false)
     private String name;
 
-    @Column(name = "category_name", columnDefinition = "varchar(50) ",nullable = false)
+    @Column(name = "category_name", columnDefinition = "varchar(50) ",nullable = true)
     private String categoryName;
 
     @Column(name = "icon", columnDefinition = "varchar(250) ")

@@ -18,8 +18,8 @@ import java.util.List;
 @EventObject
 public class ServiceCategoryEventHandler extends EventHandler {
 
-    @Autowired
-    private ServiceCategoryRespository categoryRespository;
+//    @Autowired
+//    private ServiceCategoryRespository categoryRespository;
 
 
     @EventRegister(EventType.BEFORE_CREATE_FORM)
@@ -29,12 +29,12 @@ public class ServiceCategoryEventHandler extends EventHandler {
 
 
     private void attachCagetoryList(ModelAndView mv) {
-        List<Object[]> rowList = categoryRespository.findAllWithIdAndName();
-        List<NamingObject> categoryList = new ArrayList<>();
-        for (Object[] objects : rowList) {
-            categoryList.add(new NamingObject(String.valueOf(objects[0]), String.valueOf(objects[1])));
-        }
-        mv.addObject("categoryList", categoryList);
+//        List<Object[]> rowList = categoryRespository.findAllWithIdAndName();
+//        List<NamingObject> categoryList = new ArrayList<>();
+//        for (Object[] objects : rowList) {
+//            categoryList.add(new NamingObject(String.valueOf(objects[0]), String.valueOf(objects[1])));
+//        }
+//        mv.addObject("categoryList", categoryList);
     }
 
 

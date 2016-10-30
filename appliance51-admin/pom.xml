@@ -6,7 +6,7 @@
     <groupId>com.zhimei</groupId>
     <artifactId>appliance51-admin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>${project.packaging}</packaging>
 
     <name>appliance51-admin</name>
     <description></description>
@@ -18,10 +18,11 @@
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
-        <java.version>1.8</java.version>
+        <docker.image.prefix>yay</docker.image.prefix>
+        <!-- The main class to start by executing java -jar -->
+        <start-class>appliance51.admin.Appliance51AdminApplication</start-class>
     </properties>
 
     <dependencies>
@@ -72,6 +73,27 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!--集成docker-->
+            <!--http://www.cnblogs.com/beyondblog/p/spring-boot-docker.html-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.3</version>
+                <configuration>
+                    <dockerHost>http://192.168.0.123:2375</dockerHost>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

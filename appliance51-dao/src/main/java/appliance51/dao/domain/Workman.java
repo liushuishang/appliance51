@@ -29,7 +29,7 @@ public class Workman extends User {
      * 身份证号码
      */
     @Column(name = "certificateNo", length = 20, nullable = true)
-    private String CertificateNo;
+    private String certificateNo;
 
 
 
@@ -42,11 +42,11 @@ public class Workman extends User {
     }
 
     public String getCertificateNo() {
-        return CertificateNo;
+        return certificateNo;
     }
 
-    public void setCertificateNo(String certificateNo) {
-        CertificateNo = certificateNo;
+    public void setCertificateNo(String value) {
+        this.certificateNo = value;
     }
 
     @Override

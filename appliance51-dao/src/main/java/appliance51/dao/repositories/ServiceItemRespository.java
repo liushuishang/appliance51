@@ -8,13 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  * Created by yuananyun on 2016/9/11.
  */
 @Repository
-public interface ServiceItemRespository extends CrudRepository<ServiceItem, String> {
+public interface ServiceItemRespository extends PagingAndSortingRepository<ServiceItem, String> {
 
 
     Page<ServiceItem> findAll( Pageable pageable);
