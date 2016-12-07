@@ -8,7 +8,7 @@ import appliance51.dao.domain.ServiceOrder;
 import appliance51.dao.domain.ServiceOrderAttachement;
 import appliance51.dao.domain.User;
 import appliance51.dao.model.AccountType;
-import appliance51.dao.repositories.ServiceOrderRespository;
+import appliance51.dao.repositories.ServiceOrderRepository;
 import appliance51.rest.dto.ProprietorOrder;
 import appliance51.rest.exception.RequestExcepFactor;
 import appliance51.rest.exception.UserExcepFactor;
@@ -32,7 +32,7 @@ public class OrderService {
     private UserAccountService accountService;
 
     @Autowired
-    private ServiceOrderRespository orderRespository;
+    private ServiceOrderRepository orderRespository;
 
     @Transactional
     public boolean saveOrder(ProprietorOrder orderDto) {
@@ -77,5 +77,23 @@ public class OrderService {
         ServiceOrder savedOrder = orderRespository.save(order);
         if (savedOrder == null) EngineExceptionHelper.localException(RequestExcepFactor.REQUEST_ENTITY_SAVED_ERROR);
         return true;
+    }
+
+    /**
+     * 根据状态查询我的订单
+     * @param status 0：全部订单；1：未完成；2：已完成；3：未评论
+     * @return
+     */
+    public List<ServiceOrder> orderRetrieveByStatus(int status) {
+        String userId = ThreadLocalContext.getRequestContext().getCurrentUid();
+        if(status==0)
+            return orderRespository.findAllBySubmitterId(userId);
+        if(status==1)
+         return orderRespository.findAllBySubmitterIdAndStatusLessThan(userId, 3);
+        if(status==2)
+            return orderRespository.findAllBySubmitterIdAndStatusGreaterThan(userId, 2);
+        if(status==3)
+            return orderRespository.findAllBySubmitterIdAndStatus(userId,3);
+        return null;
     }
 }

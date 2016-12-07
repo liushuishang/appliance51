@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by yuananyun on 2016/9/11.
  */
 @Repository
-public interface ServiceCategoryRespository extends PagingAndSortingRepository<ServiceCategory, String> {
+public interface ServiceCategoryRepository extends PagingAndSortingRepository<ServiceCategory, String> {
 
 
     @Query(value ="select id,`name` from service_category" ,nativeQuery = true,countName = "id,name")

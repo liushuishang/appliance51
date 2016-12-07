@@ -4,7 +4,6 @@ import appliance51.admin.event.EventManager;
 import appliance51.admin.event.EventType;
 import appliance51.admin.model.QueryResult;
 import appliance51.admin.service.CommonService;
-import appliance51.dao.domain.ServiceCategory;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;

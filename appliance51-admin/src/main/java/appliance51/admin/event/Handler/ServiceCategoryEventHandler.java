@@ -4,13 +4,7 @@ import appliance51.admin.event.EventHandler;
 import appliance51.admin.event.EventObject;
 import appliance51.admin.event.EventRegister;
 import appliance51.admin.event.EventType;
-import appliance51.dao.model.NamingObject;
-import appliance51.dao.repositories.ServiceCategoryRespository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yuananyun on 2016/10/23.

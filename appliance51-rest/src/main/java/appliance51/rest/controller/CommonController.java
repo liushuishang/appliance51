@@ -3,7 +3,7 @@ package appliance51.rest.controller;
 import appliance51.common.exception.EngineExceptionHelper;
 import appliance51.common.exception.ExcepFactor;
 import appliance51.dao.domain.ServiceCategory;
-import appliance51.dao.repositories.ServiceCategoryRespository;
+import appliance51.dao.repositories.ServiceCategoryRepository;
 import appliance51.rest.exception.RequestExcepFactor;
 import appliance51.rest.model.RestResult;
 import appliance51.rest.service.UserAccountService;
@@ -38,7 +38,7 @@ public class CommonController {
     private UserAccountService accountService;
 
     @Autowired
-    private ServiceCategoryRespository categoryRespository;
+    private ServiceCategoryRepository categoryRespository;
 
     @Autowired
     private FileStoreService fileStoreService;
@@ -46,7 +46,7 @@ public class CommonController {
 
     @RequestMapping(value = {"", "/", "/index"})
     public Object index() {
-        return "api document link：/swagger-ui.html";
+        return "api document link:/swagger-ui.html";
     }
 
     @RequestMapping(value = "/common/mobileCode", method = RequestMethod.GET)

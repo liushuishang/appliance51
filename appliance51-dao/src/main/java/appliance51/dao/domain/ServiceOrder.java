@@ -89,7 +89,7 @@ public class ServiceOrder {
      * 订单的状态
      */
     @Column(columnDefinition = "tinyint default 0", nullable = false)
-    private int status;
+    private Integer status;
 
     public String getId() {
         return id;

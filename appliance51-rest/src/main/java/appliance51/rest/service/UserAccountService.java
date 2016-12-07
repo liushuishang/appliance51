@@ -1,7 +1,6 @@
 package appliance51.rest.service;
 
 import appliance51.common.exception.EngineExceptionHelper;
-import appliance51.common.utils.CertificateNoUtil;
 import appliance51.common.utils.ExceptionAssert;
 import appliance51.common.utils.PasswordUtl;
 import appliance51.dao.domain.ClientLoginStatus;
@@ -9,7 +8,7 @@ import appliance51.dao.domain.Proprietor;
 import appliance51.dao.domain.User;
 import appliance51.dao.domain.Workman;
 import appliance51.dao.model.AccountType;
-import appliance51.dao.repositories.ClientLoginLogRespository;
+import appliance51.dao.repositories.ClientLoginLogRepository;
 import appliance51.rest.dto.UserLoginResult;
 import appliance51.rest.dto.WorkmanRegistration;
 import appliance51.rest.exception.UserExcepFactor;
@@ -45,7 +44,7 @@ public class UserAccountService {
     private MobileCodeService mobileCodeService;
 
     @Autowired
-    private ClientLoginLogRespository clientLoginLogRespository;
+    private ClientLoginLogRepository clientLoginLogRespository;
 
     /**
      * 师傅注册

@@ -30,6 +30,7 @@
         <module>appliance51-security</module>
         <module>appliance51-store</module>
         <module>appliance51-push</module>
+        <module>appliance51-payment</module>
     </modules>
 
 

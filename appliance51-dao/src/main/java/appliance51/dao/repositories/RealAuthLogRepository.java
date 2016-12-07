@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by yuananyun on 2016/10/18.
  */
 @Repository
-public interface RealAuthLogRespository extends CrudRepository<RealAuthenticatonLog, String> {
+public interface RealAuthLogRepository extends CrudRepository<RealAuthenticatonLog, String> {
 
 
 }

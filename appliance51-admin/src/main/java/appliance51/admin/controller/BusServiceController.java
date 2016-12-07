@@ -3,8 +3,8 @@ package appliance51.admin.controller;
 import appliance51.admin.model.QueryResult;
 import appliance51.dao.domain.ServiceCategory;
 import appliance51.dao.domain.ServiceItem;
-import appliance51.dao.repositories.ServiceCategoryRespository;
-import appliance51.dao.repositories.ServiceItemRespository;
+import appliance51.dao.repositories.ServiceCategoryRepository;
+import appliance51.dao.repositories.ServiceItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,10 +29,10 @@ public class BusServiceController {
 //    private CityRegionRespository regionRepository;
 
     @Autowired
-    private ServiceCategoryRespository categoryRepository;
+    private ServiceCategoryRepository categoryRepository;
 
     @Autowired
-    private ServiceItemRespository itemRepository;
+    private ServiceItemRepository itemRepository;
 
     @RequestMapping(value = "region", method = RequestMethod.GET)
     public ModelAndView region() {

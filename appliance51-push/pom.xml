@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>appliance51-push</artifactId>
+    <description>消息推送模块</description>
 
     <dependencies>
         <!--极光推送-->

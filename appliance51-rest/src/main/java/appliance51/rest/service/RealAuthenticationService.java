@@ -8,7 +8,7 @@ import appliance51.common.utils.PasswordUtl;
 import appliance51.dao.domain.RealAuthenticatonLog;
 import appliance51.dao.domain.UserBankCard;
 import appliance51.dao.domain.Workman;
-import appliance51.dao.repositories.RealAuthLogRespository;
+import appliance51.dao.repositories.RealAuthLogRepository;
 import appliance51.dao.repositories.UserBankCardRepository;
 import appliance51.rest.dto.RealAuthInfo;
 import appliance51.rest.exception.UserExcepFactor;
@@ -38,7 +38,7 @@ public class RealAuthenticationService {
 
 
     @Autowired
-    private RealAuthLogRespository realAuthLogRespository;
+    private RealAuthLogRepository realAuthLogRespository;
 
     @Autowired
     private UserBankCardRepository bankCardRepository;
