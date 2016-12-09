@@ -1,6 +1,6 @@
 package appliance51.rest.service;
 
-import appliance51.common.utils.PasswordUtl;
+import appliance51.dao.domain.User;
 import appliance51.dao.domain.Workman;
 import appliance51.dao.domain.WorkmanToServiceItem;
 import appliance51.dao.domain.WorkmanToServiceRegion;
@@ -60,5 +60,10 @@ public class WorkmanDBService {
 
     public Workman findOne(String id) {
         return workmanRepository.findOne(id);
+    }
+
+    public User findOneById(String userId) {
+        return workmanRepository.findOneById(userId);
+
     }
 }

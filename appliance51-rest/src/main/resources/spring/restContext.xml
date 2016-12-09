@@ -20,6 +20,21 @@
                             <value>application/json</value>
                         </list>
                     </property>
+                    <property name="fastJsonConfig">
+                        <bean class=" com.alibaba.fastjson.support.config.FastJsonConfig">
+                            <property name="charset" value="UTF-8"></property>
+                            <property name="serializerFeatures">
+                                <list>
+                                    <value>PrettyFormat</value>
+                                    <value>WriteMapNullValue</value>
+                                    <value>WriteNullStringAsEmpty</value>
+                                    <value>WriteNullListAsEmpty</value>
+                                    <value>DisableCircularReferenceDetect</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+
                 </bean>
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>

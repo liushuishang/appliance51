@@ -122,7 +122,8 @@ INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -130,12 +131,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '空调'
+    ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -143,12 +146,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '冰箱'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -156,12 +161,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '热水器'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -169,12 +176,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '电视'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -182,12 +191,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '洗衣机'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -195,12 +206,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '油烟机'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -208,12 +221,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '灶台'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -221,12 +236,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '微波炉'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -234,12 +251,14 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '电磁炉'
+        ,'defaultImage'
   );
 INSERT INTO `service_item` (
   `id`,
   `category_id`,
   `description`,
-  `name`
+  `name`,
+  `icon`
 )
 VALUES
   (
@@ -247,6 +266,7 @@ VALUES
     '0a3445da-8d5d-11e6-840e-9c5c8e07b6c0',
     '',
     '中央空调'
+        ,'defaultImage'
   );
 
 

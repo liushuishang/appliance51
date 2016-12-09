@@ -1,5 +1,6 @@
 package appliance51.dao.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,10 +18,12 @@ public class ServiceOrderAttachement {
     @Column(length = 38, nullable = false)
     private String id;
 
-    @Column(name = "order_id", columnDefinition = "varchar(20)", nullable = false, updatable = false)
-    private String orderId;
+    @JSONField(serialize = false)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "order_id")
+    private ServiceOrder serviceOrder;
 
-    @Column(name = "resource_url", columnDefinition = "varchar(20)", nullable = false, updatable = false)
+    @Column(name = "resource_url", nullable = false, updatable = false)
     private String resourceUrl;
 
     @Column(columnDefinition = "timestamp default now()", updatable = false, nullable = false)
@@ -34,13 +37,6 @@ public class ServiceOrderAttachement {
         this.id = id;
     }
 
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
 
     public String getResourceUrl() {
         return resourceUrl;
@@ -56,5 +52,13 @@ public class ServiceOrderAttachement {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public ServiceOrder getServiceOrder() {
+        return serviceOrder;
+    }
+
+    public void setServiceOrder(ServiceOrder serviceOrder) {
+        this.serviceOrder = serviceOrder;
     }
 }

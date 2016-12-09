@@ -115,7 +115,7 @@ public class ProprietorController {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.PUT)
+    @RequestMapping(value = "login", method = RequestMethod.PUT)
     @ApiOperation(value = "业主登录", notes = "业主登录接口", httpMethod = "PUT")
     @ApiImplicitParams(
             {
@@ -140,7 +140,7 @@ public class ProprietorController {
         return RestResult.success(result);
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    @RequestMapping(value = "order", method = RequestMethod.POST)
     @ApiOperation(value = "业主下订单", notes = "业主下订单接口", httpMethod = "POST")
     @ApiImplicitParams(
             {
@@ -155,7 +155,7 @@ public class ProprietorController {
                             required = true, dataType = "String", defaultValue = "test"),
                     @ApiImplicitParam(paramType = "body",
                             name = "order", value = "订单详情",
-                            required = true, dataType = "ProprietorOrder"),
+                            required = true, dataType = "ProprietorOrder",defaultValue = "null")
             }
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.PROPRIETOR)
@@ -164,7 +164,7 @@ public class ProprietorController {
         return RestResult.success(result);
     }
 
-    @RequestMapping(value = "/orderRetrieve", method = RequestMethod.GET)
+    @RequestMapping(value = "orderRetrieve", method = RequestMethod.GET)
     @ApiOperation(value = "订单查询", notes = "订单查询接口", httpMethod = "GET")
     @ApiImplicitParams(
             {
@@ -179,7 +179,7 @@ public class ProprietorController {
                             required = true, dataType = "String", defaultValue = "test"),
                     @ApiImplicitParam(paramType = "query",
                             name = "status", value = "订单状态，0：全部订单；1：未完成；2：已完成；3：未评论",
-                            required = true, dataType = "Integer"),
+                            required = true, dataType = "Int")
             }
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.PROPRIETOR)

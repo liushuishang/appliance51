@@ -47,15 +47,16 @@ public class ServiceOrder {
     @Column(columnDefinition = "varchar(38)", nullable = false)
     private String submitterId;
 
-    @Column(columnDefinition = "varchar(38)", nullable = false)
+    @Column(columnDefinition = "varchar(38)")
     private String performerId;
 
+//    @JSONField(serialize = false)
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "service_order_item", joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "service_item_id"))
     private Set<ServiceItem> serviceItems;
 
-    @Column(columnDefinition = "float default 0", nullable = false)
+    @Column(columnDefinition = "float default 0")
     private Float amount;
 
 
@@ -74,15 +75,17 @@ public class ServiceOrder {
      * 订单的附件
      */
     @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "order_id")
     private Set<ServiceOrderAttachement> attachmentSet;
 
 
-    @Column(columnDefinition = "timestamp default now()", updatable = false, nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
     private Date createdDate;
-    @Column(columnDefinition = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = true)
     private Date completedDate;
-    @Column(columnDefinition = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = true)
     private Date evaluatedDate;
 
     /**

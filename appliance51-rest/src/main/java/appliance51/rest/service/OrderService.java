@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -42,11 +39,14 @@ public class OrderService {
         ExceptionAssert.notEmpty(orderDto.getServiceIdList(), ExcepFactor.E_PARAM_ERROR);
 
         String userId = ThreadLocalContext.getRequestContext().getCurrentUid();
-        User proprietor = accountService.getUserInfo(AccountType.Proprietor, userId);
+        User proprietor = accountService.getUserInfoById(AccountType.Proprietor, userId);
         if (proprietor == null) throw EngineExceptionHelper.localException(UserExcepFactor.E_USER_NOTOPEN);
 
+        //新建一个订单信息
         ServiceOrder order = new ServiceOrder();
+        order.setId(UUID.randomUUID().toString());
         order.setSubmitterId(userId);
+        order.setAmount(0.0f);
         order.setRemark(orderDto.getRemark());
         order.setAdCode(orderDto.getAdCode());
         order.setAddress(orderDto.getAddress());
@@ -55,6 +55,7 @@ public class OrderService {
         order.setDescription(orderDto.getDescription());
         order.setCreatedDate(new Date());
 
+        //添加订单的服务项目信息
         Set<ServiceItem> serviceItemSet = new LinkedHashSet<>();
         List<String> serviceIdList = orderDto.getServiceIdList();
         for (String serviceId : serviceIdList) {
@@ -64,14 +65,18 @@ public class OrderService {
         }
         order.setServiceItems(serviceItemSet);
 
+        //添加订单的附件信息
+        Set<ServiceOrderAttachement> orderAttachementList=new HashSet<>();
         List<String> attachmentList = orderDto.getAttachmentList();
         for (String attachment : attachmentList) {
             ServiceOrderAttachement orderAttachement = new ServiceOrderAttachement();
             orderAttachement.setResourceUrl(attachment);
             orderAttachement.setCreatedDate(new Date());
+            orderAttachement.setServiceOrder(order);
 
-            attachmentList.add(attachment);
+            orderAttachementList.add(orderAttachement);
         }
+        order.setAttachmentSet(orderAttachementList);
 
         //保存订单信息
         ServiceOrder savedOrder = orderRespository.save(order);

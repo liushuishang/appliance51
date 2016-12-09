@@ -1,6 +1,7 @@
 package appliance51.rest.service;
 
 import appliance51.dao.domain.Proprietor;
+import appliance51.dao.domain.User;
 import appliance51.dao.repositories.ProprietorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,9 @@ public class ProprietorDBService {
 
     public Proprietor save(Proprietor proprietor) {
         return proprietorRespository.save(proprietor);
+    }
+
+    public User findOneById(String userId) {
+        return proprietorRespository.findOneById(userId);
     }
 }

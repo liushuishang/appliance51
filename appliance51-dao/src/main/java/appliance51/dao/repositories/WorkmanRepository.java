@@ -1,7 +1,7 @@
 package appliance51.dao.repositories;
 
+import appliance51.dao.domain.User;
 import appliance51.dao.domain.Workman;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +14,5 @@ public interface  WorkmanRepository extends PagingAndSortingRepository<Workman, 
     Workman findOneByMobile(String mobile);
 
 
+    User findOneById(String userId);
 }

@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Created by yuananyun on 2016/10/12.
  */
-@ApiModel(value = "业主提交的订单信息")
+//@ApiModel(value = "业主提交的订单信息")
+@ApiModel
 public class ProprietorOrder {
     @ApiModelProperty(value = "订单所在区划代码", required = true)
     private String adCode;

@@ -123,12 +123,35 @@ public class UserAccountService {
         return getUserInfo(accountType, mobile) != null;
     }
 
+    /**
+     * 通过手机号码获取用户信息
+     *
+     * @param accountType
+     * @param mobile
+     * @return
+     */
     public User getUserInfo(AccountType accountType, String mobile) {
         User user = null;
         if (AccountType.Workman.equals(accountType))
             user = workmanDBService.findOneByMobile(mobile);
         else if (AccountType.Proprietor.equals(accountType))
             user = proprietorDBService.findOneByMobile(mobile);
+        return user;
+    }
+
+    /**
+     * 通过用户id获取用户信息
+     *
+     * @param accountType
+     * @param userId
+     * @return
+     */
+    public User getUserInfoById(AccountType accountType, String userId) {
+        User user = null;
+        if (AccountType.Workman.equals(accountType))
+            user = workmanDBService.findOneById(userId);
+        else if (AccountType.Proprietor.equals(accountType))
+            user = proprietorDBService.findOneById(userId);
         return user;
     }
 
@@ -148,6 +171,9 @@ public class UserAccountService {
         ExceptionAssert.notNull(user, UserExcepFactor.ACCOUNT_NOT_EXISTS);
         if (loginType == 1) {
             String storedCode = mobileCodeService.get(mobile);
+            //TODO 测试环境而已
+            if ("666666".equals(code))
+                storedCode = code;
             ExceptionAssert.notBlank(storedCode, UserExcepFactor.MOBILE_CODE_TIMEOUT);
             if (!storedCode.equals(code))
                 throw EngineExceptionHelper.localException(UserExcepFactor.MOBILE_CODE_ERROR);
