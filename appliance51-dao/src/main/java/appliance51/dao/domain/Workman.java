@@ -2,8 +2,9 @@ package appliance51.dao.domain;
 
 import appliance51.dao.model.AccountType;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by yuana on 2016/9/4.
@@ -30,6 +31,15 @@ public class Workman extends User {
      */
     @Column(name = "certificateNo", length = 20, nullable = true)
     private String certificateNo;
+
+    /**
+     * 二次验证密码
+     */
+    @Column(columnDefinition = "varchar(50) ")
+    private String validationPassword;
+
+    @Column(columnDefinition = "tinyint default 0")
+    private Boolean isRealAuth;
 
 
 
@@ -60,5 +70,21 @@ public class Workman extends User {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getValidationPassword() {
+        return validationPassword;
+    }
+
+    public void setValidationPassword(String validationPassword) {
+        this.validationPassword = validationPassword;
+    }
+
+    public Boolean getRealAuth() {
+        return isRealAuth;
+    }
+
+    public void setRealAuth(Boolean realAuth) {
+        isRealAuth = realAuth;
     }
 }

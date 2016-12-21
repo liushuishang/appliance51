@@ -13,6 +13,7 @@ import appliance51.security.annotation.AuthType;
 import appliance51.security.constants.RequestHeaderConstant;
 import appliance51.security.service.MobileCodeService;
 import appliance51.store.service.FileStoreService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -24,11 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.hibernate.validator.internal.metadata.raw.ConfigurationSource.API;
+
 /**
  * Created by yuananyun on 2016/9/17.
  */
 @RestController
 @RequestMapping(value = "/")
+@Api(value = "common", description = "通用接口", consumes = "application/json")
 public class CommonController {
 
     @Autowired

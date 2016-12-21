@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 实名认证用的dto
  * Created by yuananyun on 2016/10/17.
  */
-@ApiModel(value = "实名认证提交信息")
+@ApiModel
 public class RealAuthInfo {
 
     @ApiModelProperty(value = "真实姓名", required = true)
@@ -16,12 +16,12 @@ public class RealAuthInfo {
     private String mobile;
     @ApiModelProperty(value = "手机动态验证码", required = true)
     private String mobileCode;
-    @ApiModelProperty(name = "身份证号码", required = true)
-    private String CertificateNo;
-    @ApiModelProperty(name = "银行卡号码", required = true)
+    @ApiModelProperty(value = "身份证号码", required = true)
+    private String certificateNo;
+    @ApiModelProperty(value = "银行卡号码", required = true)
     private String bankcardNo;
-    @ApiModelProperty(name = "二次验证密码", required = true)
-    private String password;
+    @ApiModelProperty(value = "二次验证密码", required = true)
+    private String validationPassword;
 
 
     public String getMobile() {
@@ -41,11 +41,11 @@ public class RealAuthInfo {
     }
 
     public String getCertificateNo() {
-        return CertificateNo;
+        return certificateNo;
     }
 
     public void setCertificateNo(String certificateNo) {
-        CertificateNo = certificateNo;
+        this.certificateNo = certificateNo;
     }
 
 
@@ -58,12 +58,12 @@ public class RealAuthInfo {
         this.bankcardNo = bankcardNo;
     }
 
-    public String getPassword() {
-        return password;
+    public String getValidationPassword() {
+        return validationPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setValidationPassword(String validationPassword) {
+        this.validationPassword = validationPassword;
     }
 
     public String getRealName() {

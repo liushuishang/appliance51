@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/workman")
-@Api(value = "workman", description = "师傅端帐号接口", consumes = "application/json")
+@Api(value = "workman", description = "师傅端接口", consumes = "application/json")
 public class WorkmanController {
 
     @Autowired
@@ -123,13 +123,14 @@ public class WorkmanController {
                     required = true, dataType = "String", defaultValue = "workman"),
             @ApiImplicitParam(paramType = "body",
                     name = "realAuthInfo", value = "实名认证信息",
-                    required = true, dataType = "RealAuthInfo", defaultValue = "")}
+                    required = true, dataType = "RealAuthInfo", defaultValue = "null")}
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.WORKMAN)
     public RestResult realAuthentication(@RequestBody RealAuthInfo realAuthInfo) {
         boolean result=authenticationService.realAuthentication(realAuthInfo);
         return RestResult.success(result);
     }
+
 
 
 }

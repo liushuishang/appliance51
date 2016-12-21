@@ -7,8 +7,10 @@ import appliance51.dao.domain.ServiceOrder;
 import appliance51.dao.repositories.FaultDescriptionRepository;
 import appliance51.rest.dto.ProprietorOrder;
 import appliance51.rest.dto.UserLoginResult;
+import appliance51.rest.dto.WorkmanRecommend;
 import appliance51.rest.model.RestResult;
 import appliance51.rest.service.OrderService;
+import appliance51.rest.service.RecommendationService;
 import appliance51.rest.service.SystemDictionaryService;
 import appliance51.rest.service.UserAccountService;
 import appliance51.security.annotation.AuthInfo;
@@ -46,8 +48,14 @@ public class ProprietorController {
     @Autowired
     private FaultDescriptionRepository faultDescriptionRepository;
 
+
+    @Autowired
+    private RecommendationService recommendationService;
+
+
     /**
      * 获取业主端的首页闪屏图片
+     *
      * @return
      */
     @RequestMapping(value = "/splash", method = RequestMethod.GET)
@@ -68,6 +76,7 @@ public class ProprietorController {
 
     /**
      * 家电维修收费说明接口
+     *
      * @return
      */
     @RequestMapping(value = "/charge", method = RequestMethod.GET)
@@ -155,7 +164,7 @@ public class ProprietorController {
                             required = true, dataType = "String", defaultValue = "test"),
                     @ApiImplicitParam(paramType = "body",
                             name = "order", value = "订单详情",
-                            required = true, dataType = "ProprietorOrder",defaultValue = "null")
+                            required = true, dataType = "ProprietorOrder", defaultValue = "null")
             }
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.PROPRIETOR)
@@ -183,10 +192,33 @@ public class ProprietorController {
             }
     )
     @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.PROPRIETOR)
-    public Object orderRetrieve(int status)
-    {
-        if(status<0||status>3) throw EngineExceptionHelper.localException(ExcepFactor.E_PARAM_ERROR);
+    public Object orderRetrieve(int status) {
+        if (status < 0 || status > 3) throw EngineExceptionHelper.localException(ExcepFactor.E_PARAM_ERROR);
         List<ServiceOrder> data = orderService.orderRetrieveByStatus(status);
+        return RestResult.success(data);
+    }
+
+    @RequestMapping(value = "workmanRecommend", method = RequestMethod.GET)
+    @ApiOperation(value = "师傅推荐", notes = "获取订单推荐的师傅", httpMethod = "GET")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(paramType = "header",
+                            name = RequestHeaderConstant.CLIENT_TYPE, value = "客户端标识",
+                            required = true, dataType = "String", defaultValue = "proprietor"),
+                    @ApiImplicitParam(paramType = "header",
+                            name = RequestHeaderConstant.CLIENT_DEVICE, value = "客户端设备号",
+                            required = true, dataType = "String", defaultValue = "test"),
+                    @ApiImplicitParam(paramType = "header",
+                            name = RequestHeaderConstant.CLIENT_TOKEN, value = "Token",
+                            required = true, dataType = "String", defaultValue = "test"),
+                    @ApiImplicitParam(paramType = "query",
+                            name = "orderId", value = "订单的Id",
+                            required = true, dataType = "String")
+            }
+    )
+    @AuthInfo(needAuth = AuthType.REQUIRED, authScope = AuthScope.PROPRIETOR)
+    public RestResult recommend(String orderId) {
+        List<WorkmanRecommend> data = recommendationService.recommendByOrderId(orderId, 3);
         return RestResult.success(data);
     }
 

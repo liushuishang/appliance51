@@ -57,7 +57,7 @@ public class RealAuthenticationService {
         ExceptionAssert.notBlank(realAuthInfo.getCertificateNo(), ExcepFactor.E_PARAM_ERROR);
         ExceptionAssert.notBlank(realAuthInfo.getMobile(), ExcepFactor.E_PARAM_ERROR);
         ExceptionAssert.notBlank(realAuthInfo.getMobileCode(), ExcepFactor.E_PARAM_ERROR);
-        ExceptionAssert.notBlank(realAuthInfo.getPassword(), ExcepFactor.E_PARAM_ERROR);
+        ExceptionAssert.notBlank(realAuthInfo.getValidationPassword(), ExcepFactor.E_PARAM_ERROR);
         ExceptionAssert.notBlank(realAuthInfo.getRealName(), ExcepFactor.E_PARAM_ERROR);
 
         String bankNo = realAuthInfo.getBankcardNo();
@@ -105,10 +105,12 @@ public class RealAuthenticationService {
 
             logger.info("【bindToAccount】开始绑定用户%s的银行卡信息", userId);
             workman.setStatus(Workman.STATUS_ALREADY_VERIFIED);
+            //设置二次验证密码
             String salt = PasswordUtl.getSalt();
-            String password = PasswordUtl.encryptPassword(salt, realAuthInfo.getPassword());
+            String validationPassword = PasswordUtl.encryptPassword(salt, realAuthInfo.getValidationPassword());
             workman.setSalt(salt);
-            workman.setPassword(password);
+            workman.setValidationPassword(validationPassword);
+
             workman.setRealName(realAuthInfo.getRealName());
             workman.setCertificateNo(realAuthInfo.getCertificateNo());
             workman.setLastUpdatedDate(new Date());
@@ -123,6 +125,7 @@ public class RealAuthenticationService {
             blankCard.setStatus(UserBankCard.STATUS_ENABLE);
             blankCard.setBindTime(new Date());
             bankCardRepository.save(blankCard);
+
             logger.info("【bindToAccount】绑定用户%s的银行卡信息成功！", userId);
         }
 

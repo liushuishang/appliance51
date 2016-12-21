@@ -40,10 +40,15 @@ public abstract  class User implements Serializable{
     @Column(columnDefinition = "varchar(150) ")
     private String avatar;
 
-    @Column(columnDefinition = "timestamp default now()",updatable = false)
+    @Column
+    private String address;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
     private Date createdDate;
 
-    @Column(columnDefinition = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = true)
     private Date lastUpdatedDate;
 
 
@@ -151,5 +156,13 @@ public abstract  class User implements Serializable{
 
     public void setLastUpdatedDate(Date lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

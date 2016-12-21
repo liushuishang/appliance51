@@ -2,7 +2,6 @@ package appliance51.rest.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -13,8 +12,12 @@ import java.util.List;
 public class WorkmanRegistration {
     @ApiModelProperty(value = "手机号码", required = true)
     private String mobile;
-    @ApiModelProperty(value = "手机动态验证码", required = false)
+    @ApiModelProperty(value = "手机动态验证码", required = true)
     private String mobileCode;
+
+    @ApiModelProperty(value = "工作地址/家庭地址", required = true)
+    private String address;
+
     @ApiModelProperty(value = "服务项目ID列表", required = true)
     private List<String> serviceItemIdList;
     @ApiModelProperty(value = "服务地区区划代码列表", required = true)
@@ -55,5 +58,13 @@ public class WorkmanRegistration {
 
     public void setServiceAdCodeList(List<String> serviceAdCodeList) {
         this.serviceAdCodeList = serviceAdCodeList;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
