@@ -45,10 +45,10 @@ public class ServiceOrder {
     private String id;
 
     @Column(columnDefinition = "varchar(38)", nullable = false)
-    private String submitterId;
+    private String proprietorId;
 
     @Column(columnDefinition = "varchar(38)")
-    private String performerId;
+    private String workmanId;
 
 //    @JSONField(serialize = false)
     @OneToMany(fetch = FetchType.EAGER)
@@ -74,9 +74,8 @@ public class ServiceOrder {
     /**
      * 订单的附件
      */
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "serviceOrder")
     private Set<ServiceOrderAttachement> attachmentSet;
-
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
@@ -86,7 +85,7 @@ public class ServiceOrder {
     private Date completedDate;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = true)
-    private Date evaluatedDate;
+    private Date feedbackDate;
 
     /**
      * 订单的状态
@@ -102,20 +101,20 @@ public class ServiceOrder {
         this.id = id;
     }
 
-    public String getSubmitterId() {
-        return submitterId;
+    public String getProprietorId() {
+        return proprietorId;
     }
 
-    public void setSubmitterId(String submitterId) {
-        this.submitterId = submitterId;
+    public void setProprietorId(String proprietorId) {
+        this.proprietorId = proprietorId;
     }
 
-    public String getPerformerId() {
-        return performerId;
+    public String getWorkmanId() {
+        return workmanId;
     }
 
-    public void setPerformerId(String performerId) {
-        this.performerId = performerId;
+    public void setWorkmanId(String workmanId) {
+        this.workmanId = workmanId;
     }
 
     public Set<ServiceItem> getServiceItems() {
@@ -206,11 +205,11 @@ public class ServiceOrder {
         this.remark = remark;
     }
 
-    public Date getEvaluatedDate() {
-        return evaluatedDate;
+    public Date getFeedbackDate() {
+        return feedbackDate;
     }
 
-    public void setEvaluatedDate(Date evaluatedDate) {
-        this.evaluatedDate = evaluatedDate;
+    public void setFeedbackDate(Date feedbackDate) {
+        this.feedbackDate = feedbackDate;
     }
 }

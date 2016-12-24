@@ -10,7 +10,6 @@ import appliance51.dao.domain.User;
 import appliance51.dao.model.AccountType;
 import appliance51.dao.repositories.ServiceOrderRepository;
 import appliance51.rest.dto.ProprietorOrder;
-import appliance51.rest.dto.WorkmanRecommend;
 import appliance51.rest.exception.RequestExcepFactor;
 import appliance51.rest.exception.UserExcepFactor;
 import appliance51.security.context.ThreadLocalContext;
@@ -46,7 +45,7 @@ public class OrderService {
         //新建一个订单信息
         ServiceOrder order = new ServiceOrder();
         order.setId(UUID.randomUUID().toString());
-        order.setSubmitterId(userId);
+        order.setProprietorId(userId);
         order.setAmount(0.0f);
         order.setRemark(orderDto.getRemark());
         order.setAdCode(orderDto.getAdCode());

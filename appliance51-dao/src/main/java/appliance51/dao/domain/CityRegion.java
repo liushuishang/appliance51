@@ -11,6 +11,11 @@ import javax.persistence.*;
 @Table(name = "city_region")
 public class CityRegion {
 
+    public CityRegion() {
+    }
+    public CityRegion(String id) {
+        this.id=id;
+    }
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")

@@ -3,6 +3,7 @@ package appliance51.dao.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by  yuananyun on 2016/9/4.
@@ -10,6 +11,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "service_item")
 public class ServiceItem {
+
+    public ServiceItem() {
+    }
+    public ServiceItem(String id) {
+        this.id=id;
+    }
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
@@ -28,11 +35,20 @@ public class ServiceItem {
     @Column(name = "icon", columnDefinition = "varchar(250) ")
     private String icon;
 
-    @Column(columnDefinition = "varchar(500)")
+    /**
+     * 服务的描述
+     */
+    @Column(columnDefinition = "varchar(1000)")
     private String description;
 
+    /**
+     * 服务的标准
+     */
+    @Column(columnDefinition = "varchar(1000)")
+    private String standard;
 
-
+    @OneToMany(mappedBy="serviceItem")
+    private List<ServiceCharge> serviceChargeList;
 
 
     public String getId() {
@@ -82,5 +98,21 @@ public class ServiceItem {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getStandard() {
+        return standard;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
+
+    public List<ServiceCharge> getServiceChargeList() {
+        return serviceChargeList;
+    }
+
+    public void setServiceChargeList(List<ServiceCharge> serviceChargeList) {
+        this.serviceChargeList = serviceChargeList;
     }
 }

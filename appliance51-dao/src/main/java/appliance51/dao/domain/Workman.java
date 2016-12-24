@@ -2,9 +2,8 @@ package appliance51.dao.domain;
 
 import appliance51.dao.model.AccountType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by yuana on 2016/9/4.
@@ -41,6 +40,15 @@ public class Workman extends User {
     @Column(columnDefinition = "tinyint default 0")
     private Boolean isRealAuth;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "workman_service", joinColumns = @JoinColumn(name = "service_id"),
+            inverseJoinColumns = @JoinColumn(name = "workman_id"))
+    private Set<ServiceItem> serviceItemSet;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "workman_region", joinColumns = @JoinColumn(name = "region_id"),
+            inverseJoinColumns = @JoinColumn(name = "workman_id"))
+    private Set<CityRegion> serviceRegionSet;
 
 
     public Integer getStatus() {
@@ -86,5 +94,21 @@ public class Workman extends User {
 
     public void setRealAuth(Boolean realAuth) {
         isRealAuth = realAuth;
+    }
+
+    public Set<ServiceItem> getServiceItemSet() {
+        return serviceItemSet;
+    }
+
+    public void setServiceItemSet(Set<ServiceItem> serviceItemSet) {
+        this.serviceItemSet = serviceItemSet;
+    }
+
+    public Set<CityRegion> getServiceRegionSet() {
+        return serviceRegionSet;
+    }
+
+    public void setServiceRegionSet(Set<CityRegion> serviceRegionSet) {
+        this.serviceRegionSet = serviceRegionSet;
     }
 }

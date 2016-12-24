@@ -18,12 +18,19 @@ public class WorkmanRecommend {
     private String userName;
     @ApiModelProperty(value = "头像")
     private String avatar;
+    @ApiModelProperty(value = "地址")
+    private String address;
     @ApiModelProperty(value = "注册时间")
     private Date regtime;
     @ApiModelProperty(value = "是否已经实名认证")
     private boolean isRealAuth;
-    @ApiModelProperty(value = "积分排名")
-    private String  scoreRank;
+    @ApiModelProperty(value = "好评数")
+    private int praiseCount;
+    @ApiModelProperty(value = "中评数")
+    private int ordinaryCount;
+    @ApiModelProperty(value = "差评数")
+    private int badCount;
+
     @ApiModelProperty(value = "成功的订单数")
     private int successOrderCount;
 
@@ -75,12 +82,28 @@ public class WorkmanRecommend {
         isRealAuth = realAuth;
     }
 
-    public String getScoreRank() {
-        return scoreRank;
+    public int getPraiseCount() {
+        return praiseCount;
     }
 
-    public void setScoreRank(String scoreRank) {
-        this.scoreRank = scoreRank;
+    public void setPraiseCount(int praiseCount) {
+        this.praiseCount = praiseCount;
+    }
+
+    public int getOrdinaryCount() {
+        return ordinaryCount;
+    }
+
+    public void setOrdinaryCount(int ordinaryCount) {
+        this.ordinaryCount = ordinaryCount;
+    }
+
+    public int getBadCount() {
+        return badCount;
+    }
+
+    public void setBadCount(int badCount) {
+        this.badCount = badCount;
     }
 
     public int getSuccessOrderCount() {
@@ -89,5 +112,13 @@ public class WorkmanRecommend {
 
     public void setSuccessOrderCount(int successOrderCount) {
         this.successOrderCount = successOrderCount;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
